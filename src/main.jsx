@@ -1,11 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import "flowbite";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes/Route.jsx";
+import AuthContextProvider from "./AuthProvider/AuthContextProvider.jsx";
+import "flowbite";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <AuthContextProvider>
+      <RouterProvider router={router}></RouterProvider>
+    </AuthContextProvider>
   </React.StrictMode>
 );

@@ -3,7 +3,8 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
-function Login() {
+import { RxAvatar } from "react-icons/rx";
+function Signup() {
   const { googleLogin, user } = useAuth();
   const navigate = useNavigate();
 
@@ -15,14 +16,7 @@ function Login() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
-
-    try {
-      const { user } = await googleLogin();
-      console.log(user);
-    } catch (err) {
-      console.log(err);
-    }
+    console.log(data.file[0].name);
   };
 
   const handleGoogleLogin = () => {
@@ -68,6 +62,20 @@ function Login() {
 
                 <div className="relative flex  items-center mt-8">
                   <span className="absolute">
+                    <RxAvatar className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500" />
+                  </span>
+
+                  <input
+                    type="name"
+                    name="name"
+                    {...register("name", { required: true })}
+                    required
+                    className="block w-full py-3 text-gray-700 bg-white border  rounded-md px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 border-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                    placeholder="Full Name"
+                  />
+                </div>
+                <div className="relative flex  items-center mt-4">
+                  <span className="absolute">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500"
@@ -91,6 +99,15 @@ function Login() {
                     required
                     className="block w-full py-3 text-gray-700 bg-white  rounded-md px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 border-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     placeholder="Email address"
+                  />
+                </div>
+                <div className=" mt-4 max-w-xs">
+                  <input
+                    id="example1"
+                    type="file"
+                    {...register("file", { required: true })}
+                    name="file"
+                    className="mt-2 block rounded-l-md w-full text-sm file:mr-4 file:rounded-md file:border-0 file:bg-teal-500 file:py-2 file:px-4 file:text-sm file:font-semibold file:text-white hover:file:bg-teal-700 focus:outline-none disabled:pointer-events-none disabled:opacity-60"
                   />
                 </div>
 
@@ -149,7 +166,7 @@ function Login() {
 
                 <div className="mt-4">
                   <button className="w-fit px-6 py-3 text-sm font-semibold tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#1EB7D8] rounded-md hover:bg-[#1eb6d8b7] focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 ">
-                    Sign in
+                    Sign Up
                   </button>
 
                   <p className="mt-4 text-center text-gray-600 dark:text-gray-400">
@@ -189,7 +206,7 @@ function Login() {
                 href="#"
                 className="text-sm text-[#1EB7D8] hover:underline dark:text-blue-400"
               >
-                Don’t have an account yet? Sign up
+                Already have an account? Login
               </Link>
             </div>
           </section>
@@ -199,4 +216,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;
