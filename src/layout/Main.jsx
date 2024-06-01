@@ -3,7 +3,7 @@ import Navbar from "../components/Home/Navbar";
 
 function Main() {
   return (
-    <div>
+    <div className="font-roboto">
       <Navbar></Navbar>
       <Outlet></Outlet>
     </div>

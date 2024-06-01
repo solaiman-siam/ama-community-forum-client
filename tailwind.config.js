@@ -6,6 +6,9 @@ export default {
     "./node_modules/flowbite/**/*.js",
   ],
   theme: {
+    fontFamily: {
+      'roboto': ["'Roboto', sans-serif"]
+    },
     extend: {},
   },
   plugins: [require("flowbite/plugin")],
