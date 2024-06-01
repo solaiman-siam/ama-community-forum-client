@@ -35,9 +35,11 @@ function Navbar() {
               </NavLink>
             </li>
           </ul>
+          <Link to={'/login'}>
           <button className="border hover:border-[#078669] duration-500 hover:bg-[#078669] transition-all border-white text-sm font-medium rounded-full px-7 py-2.5">
             Join US
           </button>
+          </Link>
         </div>
       </div>
     </div>
