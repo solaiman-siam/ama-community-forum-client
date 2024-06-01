@@ -66,6 +66,7 @@ function AuthContextProvider({ children }) {
     loginUser,
     updateUserProfile,
     logOut,
+    setUser,
   };
 
   return (

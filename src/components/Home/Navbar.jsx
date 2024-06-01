@@ -43,7 +43,7 @@ function Navbar() {
             </li>
           </ul>
           <div>
-            {user?.email && (
+            {user && (
               <>
                 <Dropdown
                   label={

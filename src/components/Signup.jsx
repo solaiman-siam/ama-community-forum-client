@@ -4,8 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
 import { RxAvatar } from "react-icons/rx";
+import { imageUpload } from "../utils/utils";
 function Signup() {
-  const { googleLogin, user } = useAuth();
+  const { googleLogin, user, createUser, updateUserProfile, setUser } =
+    useAuth();
   const navigate = useNavigate();
 
   // react hook form
@@ -16,9 +18,26 @@ function Signup() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data.file[0].name);
+    try {
+      const name = data.name;
+      const email = data.email;
+      const password = data.password;
+      const photoURL = await imageUpload(data.file[0]);
+      console.log(name, email, password, photoURL);
+
+      const result = await createUser(email, password);
+      console.log("create user result", result);
+      await updateUserProfile(name, photoURL);
+      setUser({ ...user, displayName: name, photoURL: photoURL });
+      if (result.user) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
+  //   google login
   const handleGoogleLogin = () => {
     googleLogin().then((res) => {
       console.log(res.user);
@@ -143,7 +162,7 @@ function Signup() {
                   />
 
                   <span
-                    className="absolute right-4 text-gray-500 "
+                    className="absolute right-4 text-gray-500 cursor-pointer "
                     onClick={() => setShowPass(!showPass)}
                   >
                     {showPass ? (
@@ -202,7 +221,7 @@ function Signup() {
             </button>
             <div className="mt-6 text-center ">
               <Link
-                to={"/signup"}
+                to={"/login"}
                 href="#"
                 className="text-sm text-[#1EB7D8] hover:underline dark:text-blue-400"
               >

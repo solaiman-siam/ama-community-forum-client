@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
 function Login() {
-  const { googleLogin, user } = useAuth();
+  const { googleLogin, user, loginUser } = useAuth();
   const navigate = useNavigate();
 
   // react hook form
@@ -15,11 +15,15 @@ function Login() {
   } = useForm();
 
   const onSubmit = async (data) => {
+    const email = data.email;
+    const password = data.password;
     console.log(data);
-
     try {
-      const { user } = await googleLogin();
+      const { user } = await loginUser(email, password);
       console.log(user);
+      if (user) {
+        navigate("/");
+      }
     } catch (err) {
       console.log(err);
     }
@@ -117,8 +121,6 @@ function Login() {
                     name="password"
                     {...register("password", {
                       required: true,
-                      pattern:
-                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                     })}
                     required
                     className="block w-full px-10 py-3 text-gray-700 bg-white rounded-md dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none border-gray-300 focus:ring focus:ring-opacity-40"
@@ -126,7 +128,7 @@ function Login() {
                   />
 
                   <span
-                    className="absolute right-4 text-gray-500 "
+                    className="absolute right-4 cursor-pointer text-gray-500 "
                     onClick={() => setShowPass(!showPass)}
                   >
                     {showPass ? (
@@ -136,16 +138,6 @@ function Login() {
                     )}
                   </span>
                 </div>
-                {errors.password?.type === "pattern" && (
-                  <p
-                    className="text-xs text-left px-2 pt-2 text-red-500"
-                    role="alert"
-                  >
-                    Password must have minimum 6 characters, at least one
-                    uppercase and one lowercase letter, one number and one
-                    special character
-                  </p>
-                )}
 
                 <div className="mt-4">
                   <button className="w-fit px-6 py-3 text-sm font-semibold tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#1EB7D8] rounded-md hover:bg-[#1eb6d8b7] focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 ">
