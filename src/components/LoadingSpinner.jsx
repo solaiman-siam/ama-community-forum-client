@@ -1,9 +1,15 @@
+import { PulseLoader } from "react-spinners";
+
 function LoadingSpinner() {
   return (
     <div className="flex justify-center items-center w-full h-screen">
-      <div
-        className="w-12 h-12 rounded-full animate-spin border-y-2 border-solid border-blue-500 border-t-transparent"
-      ></div>
+      <PulseLoader
+        color={"#078669"}
+        loading={true}
+        size={40}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
     </div>
   );
 }

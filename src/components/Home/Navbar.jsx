@@ -64,9 +64,11 @@ function Navbar() {
                       {user?.email}
                     </span>
                   </Dropdown.Header>
-                  <Dropdown.Item className="hover:bg-gray-100">
-                    <Link to={"/dashboard"}>Dashboard</Link>
-                  </Dropdown.Item>
+                  <Link to={"/dashboard"}>
+                    <Dropdown.Item className="hover:bg-gray-100">
+                      Dashboard
+                    </Dropdown.Item>
+                  </Link>
                   <Dropdown.Divider />
                   <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
                 </Dropdown>

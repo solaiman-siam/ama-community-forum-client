@@ -10,9 +10,11 @@ import {
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/firebase.config";
+import useAxiosCommon from "../hooks/useAxiosCommon";
 
 export const AuthContext = createContext();
 function AuthContextProvider({ children }) {
+  const axiosCommon = useAxiosCommon();
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -44,17 +46,22 @@ function AuthContextProvider({ children }) {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+
+      // save current user to db
       const name = currentUser?.displayName;
       const email = currentUser?.email;
       const role = "guest";
       const date = new Date();
+      const userData = { name, email, role, date };
       if (currentUser) {
+        const { data } = await axiosCommon.post("/users", userData);
+        console.log(data);
       }
     });
     return () => {
       unSubscribe();
     };
-  }, []);
+  }, [axiosCommon]);
 
   // update profile
   const updateUserProfile = (displayName, photoURL) => {

@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const axiosCommon = axios.create({
+export const axiosCommon = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
 function useAxiosCommon() {
-  return <div>useAxiosCommon</div>;
+  return axiosCommon;
 }
 
 export default useAxiosCommon;
