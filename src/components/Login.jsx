@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
+import Swal from "sweetalert2";
 function Login() {
+  const location = useLocation();
   const { googleLogin, user, loginUser } = useAuth();
   const navigate = useNavigate();
+
+  // location
+  const from = location.state?.from;
 
   // react hook form
   const {
@@ -21,18 +26,40 @@ function Login() {
     try {
       const { user } = await loginUser(email, password);
       console.log(user);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Login Successful",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       if (user) {
-        navigate("/");
+        navigate(from || "/");
       }
     } catch (err) {
       console.log(err);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: `${err?.message}`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 
+  // google login
   const handleGoogleLogin = () => {
     googleLogin().then((res) => {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Login Successful",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       console.log(res.user);
-      navigate("/");
+      navigate(from || "/");
     });
   };
 

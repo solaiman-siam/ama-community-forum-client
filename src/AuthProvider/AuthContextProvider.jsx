@@ -42,8 +42,14 @@ function AuthContextProvider({ children }) {
   };
   // set current user
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+      const name = currentUser?.displayName;
+      const email = currentUser?.email;
+      const role = "guest";
+      const date = new Date();
+      if (currentUser) {
+      }
     });
     return () => {
       unSubscribe();

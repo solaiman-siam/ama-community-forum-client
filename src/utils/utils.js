@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const imageUpload = async (image) => {
+const uploadImage = async (image) => {
   const formData = new FormData();
   formData.append("image", image);
   const { data } = await axios.post(
@@ -9,3 +9,5 @@ export const imageUpload = async (image) => {
   );
   return data.data.display_url;
 };
+
+export default uploadImage;

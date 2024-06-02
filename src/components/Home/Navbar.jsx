@@ -3,6 +3,7 @@ import logo from "../../assets/logo-w.png";
 import { IoNotifications } from "react-icons/io5";
 import useAuth from "../../hooks/useAuth";
 import { Avatar, Dropdown } from "flowbite-react";
+
 function Navbar() {
   const { user, logOut } = useAuth();
 
@@ -49,7 +50,7 @@ function Navbar() {
                   label={
                     <Avatar
                       alt="User settings"
-                      className="w-[45px] h-[45px] ring-white rounded-full ring-2 "
+                      className="w-[45px] h-[45px] overflow-hidden ring-white rounded-full ring-2 "
                       img={user?.photoURL}
                       rounded
                     />
@@ -57,13 +58,15 @@ function Navbar() {
                   arrowIcon={false}
                   inline
                 >
-                  <Dropdown.Header>
-                    <span className="block text-sm">{user?.displayName}</span>
+                  <Dropdown.Header className="px-4 ">
+                    <span className="block  text-sm">{user?.displayName}</span>
                     <span className="block truncate text-sm font-medium">
                       {user?.email}
                     </span>
                   </Dropdown.Header>
-                  <Dropdown.Item>Dashboard</Dropdown.Item>
+                  <Dropdown.Item className="hover:bg-gray-100">
+                    <Link to={"/dashboard"}>Dashboard</Link>
+                  </Dropdown.Item>
                   <Dropdown.Divider />
                   <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
                 </Dropdown>

@@ -1,14 +1,19 @@
 import { useState } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
 import { RxAvatar } from "react-icons/rx";
-import { imageUpload } from "../utils/utils";
+import uploadImage from "../utils/utils";
+import Swal from "sweetalert2";
 function Signup() {
+  const location = useLocation();
   const { googleLogin, user, createUser, updateUserProfile, setUser } =
     useAuth();
   const navigate = useNavigate();
+
+  // location
+  const from = location.state?.from;
 
   // react hook form
   const {
@@ -18,30 +23,58 @@ function Signup() {
   } = useForm();
 
   const onSubmit = async (data) => {
+    const name = data.name;
+    const email = data.email;
+    const password = data.password;
+    console.log(data);
+
     try {
-      const name = data.name;
-      const email = data.email;
-      const password = data.password;
-      const photoURL = await imageUpload(data.file[0]);
-      console.log(name, email, password, photoURL);
+      const image_url = await uploadImage(data.image[0]);
+
+      // console.log(name, email, password, photoURL);
 
       const result = await createUser(email, password);
-      console.log("create user result", result);
-      await updateUserProfile(name, photoURL);
-      setUser({ ...user, displayName: name, photoURL: photoURL });
+      await updateUserProfile(name, image_url);
+      await setUser({
+        ...user,
+        photoURL: image_url,
+        displayName: name,
+        email: data.email,
+      });
       if (result.user) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Created account successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         navigate("/");
       }
     } catch (err) {
       console.log(err);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: `${err?.message}`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 
   //   google login
   const handleGoogleLogin = () => {
     googleLogin().then((res) => {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Login Successful",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       console.log(res.user);
-      navigate("/");
+      navigate(from || "/");
     });
   };
 
@@ -124,8 +157,9 @@ function Signup() {
                   <input
                     id="example1"
                     type="file"
-                    {...register("file", { required: true })}
-                    name="file"
+                    name="image"
+                    accept="image/*"
+                    {...register("image", { required: true })}
                     className="mt-2 block rounded-l-md w-full text-sm file:mr-4 file:rounded-md file:border-0 file:bg-teal-500 file:py-2 file:px-4 file:text-sm file:font-semibold file:text-white hover:file:bg-teal-700 focus:outline-none disabled:pointer-events-none disabled:opacity-60"
                   />
                 </div>
