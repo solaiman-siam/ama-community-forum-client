@@ -47,6 +47,7 @@ function Navbar() {
             {user && (
               <>
                 <Dropdown
+                  className="rounded-lg py-4"
                   label={
                     <Avatar
                       alt="User settings"
@@ -59,18 +60,23 @@ function Navbar() {
                   inline
                 >
                   <Dropdown.Header className="px-4 ">
-                    <span className="block  text-sm">{user?.displayName}</span>
-                    <span className="block truncate text-sm font-medium">
+                    <span></span>
+                    <span className="block font-bold text-sm">
+                      {user?.displayName}
+                    </span>
+                    <span className="block text-gray-500 truncate text-sm ">
                       {user?.email}
                     </span>
                   </Dropdown.Header>
                   <Link to={"/dashboard"}>
-                    <Dropdown.Item className="hover:bg-gray-100">
+                    <Dropdown.Item className="hover:bg-gray-100 font-medium">
                       Dashboard
                     </Dropdown.Item>
                   </Link>
                   <Dropdown.Divider />
-                  <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
+                  <Dropdown.Item className="font-medium" onClick={handleLogout}>
+                    Sign Out
+                  </Dropdown.Item>
                 </Dropdown>
               </>
             )}
