@@ -21,7 +21,7 @@ function MyProfile() {
               alt="Mountain"
             />
           </div>
-          <div className="mx-auto w-32 h-32 relative -mt-16 border-4 border-[#C17220] rounded-full overflow-hidden">
+          <div className="mx-auto w-32 h-32 relative -mt-16 border-4 border-[#fff] rounded-full overflow-hidden">
             <img
               className="object-cover object-center h-32"
               src={user?.photoURL}

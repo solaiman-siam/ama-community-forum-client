@@ -2,24 +2,69 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Select from "react-select";
 import useAuth from "../../../hooks/useAuth";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 function AddPost() {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
+    { value: "entertainment", label: "Entertainment" },
+    { value: "industry", label: "Industry" },
+    { value: "conclusion", label: "Conclusion" },
+    { value: "news", label: "News" },
+    { value: "memes", label: "Memes" },
+    { value: "business", label: "Business" },
+    { value: "game", label: "Game" },
+    { value: "stories", label: "Stories" },
+    { value: "blog", label: "Blog" },
+    { value: "tips", label: "Tips" },
+    { value: "religios", label: "Religios" },
   ];
 
   const [isClearable, setIsClearable] = useState(true);
 
-  const handleAddPost = (e) => {
+  // save postData to database
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async (postData) => {
+      const { data } = await axiosSecure.post("/add-post", postData);
+      return data;
+    },
+    onSuccess: () => {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Uploaded Successful",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/dashboard/my-post");
+    },
+  });
+
+  const handleAddPost = async (e) => {
     e.preventDefault();
     const form = e.target;
     const title = form.title.value;
-    const tags = form.tags.value;
+    const tag = form.tag.value;
     const details = form.details.value;
-    console.log(title, tags, details);
+    const postData = {
+      name: user?.displayName,
+      email: user?.email,
+      photoURL: user?.photoURL,
+      title,
+      tag,
+      details,
+      upVote: 0,
+      downVote: 0,
+      date: new Date(),
+    };
+    console.log(postData);
+    await mutateAsync(postData);
   };
 
   return (
@@ -58,7 +103,7 @@ function AddPost() {
             isClearable={isClearable}
             className=" border-gray-300 rounded-md  mb-4 outline-none"
             options={options}
-            name="tags"
+            name="tag"
           />
           <textarea
             className="description rounded-md  sec p-3 h-60 border border-gray-300 outline-none"

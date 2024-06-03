@@ -35,17 +35,20 @@ function AuthContextProvider({ children }) {
 
   // google login
   const googleLogin = () => {
+    setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
 
   //   logOut
   const logOut = () => {
+    setLoading(true);
     return signOut(auth);
   };
   // set current user
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+      setLoading(false);
 
       // save current user to db
       const name = currentUser?.displayName;

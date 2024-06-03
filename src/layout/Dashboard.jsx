@@ -17,7 +17,7 @@ import { GrAnnounce } from "react-icons/gr";
 import { Helmet } from "react-helmet-async";
 
 function Dashboard() {
-  const { logOut } = useAuth();
+  const { logOut, loading } = useAuth();
   const navigate = useNavigate();
   const [isOpenMenu, setOpenMenu] = useState(true);
   const [isOpen, setIsOpen] = useState(true);
@@ -29,7 +29,7 @@ function Dashboard() {
     navigate("/login");
   };
 
-  if (userLoading) return <LoadingSpinner></LoadingSpinner>;
+  if (userLoading || loading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
     <div className="font-poppins flex ">
@@ -50,7 +50,7 @@ function Dashboard() {
 
           <hr className="mt-4 border-gray-200 dark:border-gray-600" />
 
-          <div className="flex flex-col justify-between flex-1 mt-6">
+          <div className="flex flex-col justify-between flex-1 ">
             <nav>
               {role === "guest" && (
                 <>

@@ -6,7 +6,6 @@ import { Avatar, Dropdown } from "flowbite-react";
 
 function Navbar() {
   const { user, logOut } = useAuth();
-  console.log(user?.photoURL);
 
   const handleLogout = () => {
     logOut();
@@ -52,6 +51,7 @@ function Navbar() {
                   label={
                     <Avatar
                       alt="Profile"
+                      referrerPolicy="no-referrer"
                       className="w-[45px] h-[45px] overflow-hidden ring-white rounded-full ring-2 "
                       img={user && user?.photoURL}
                       rounded
