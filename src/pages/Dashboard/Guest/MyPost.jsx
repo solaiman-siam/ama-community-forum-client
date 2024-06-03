@@ -1,8 +1,14 @@
+import { Helmet } from "react-helmet-async"
 
 
 function MyPost() {
   return (
-    <div>MyPost</div>
+    <div>
+       <Helmet>
+        <title>Ama | My Post</title>
+      </Helmet>
+      
+      MyPost</div>
   )
 }
 

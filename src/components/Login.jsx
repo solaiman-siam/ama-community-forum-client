@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 function Login() {
   const location = useLocation();
   const { googleLogin, user, loginUser } = useAuth();
@@ -67,7 +68,10 @@ function Login() {
   const [showPass, setShowPass] = useState(false);
 
   return (
-    <div className="">
+    <div >
+       <Helmet>
+        <title>Ama | Login</title>
+      </Helmet>
       <div className="flex h-screen  w-full ">
         <div className="bg-[#1EB7D8] h-full relative w-[28%] ">
           <img

@@ -1,8 +1,14 @@
+import { Helmet } from "react-helmet-async"
 
 
 function ReportActivities() {
   return (
-    <div>ReportActivities</div>
+    <div>
+       <Helmet>
+        <title>Ama | Reported Activities</title>
+      </Helmet>
+      
+      ReportActivities</div>
   )
 }
 

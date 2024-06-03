@@ -6,6 +6,7 @@ import useAuth from "../hooks/useAuth";
 import { RxAvatar } from "react-icons/rx";
 import uploadImage from "../utils/utils";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 function Signup() {
   const location = useLocation();
   const { googleLogin, user, createUser, updateUserProfile, setUser } =
@@ -82,7 +83,10 @@ function Signup() {
   const [showPass, setShowPass] = useState(false);
 
   return (
-    <div className="">
+    <div >
+      <Helmet>
+        <title>Ama | Sign Up</title>
+      </Helmet>
       <div className="flex h-screen  w-full ">
         <div className="bg-[#1EB7D8] h-full relative w-[28%] ">
           <img

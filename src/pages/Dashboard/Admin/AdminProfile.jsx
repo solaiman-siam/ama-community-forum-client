@@ -1,5 +1,14 @@
+import { Helmet } from "react-helmet-async";
+
 function AdminProfile() {
-  return <div>AdminProfile</div>;
+  return (
+    <div>
+      <Helmet>
+        <title>Ama | Admin Profile</title>
+      </Helmet>
+      AdminProfile
+    </div>
+  );
 }
 
 export default AdminProfile;

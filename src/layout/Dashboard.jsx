@@ -14,6 +14,7 @@ import { CgProfile } from "react-icons/cg";
 import { TbMessageReport } from "react-icons/tb";
 import { PiUsersBold } from "react-icons/pi";
 import { GrAnnounce } from "react-icons/gr";
+import { Helmet } from "react-helmet-async";
 
 function Dashboard() {
   const { logOut } = useAuth();
@@ -32,12 +33,15 @@ function Dashboard() {
 
   return (
     <div className="font-poppins flex ">
+      <Helmet>
+        <title>Ama | Dashboard</title>
+      </Helmet>
       <div>
         <aside
           className={
             isOpen
-              ? "flex transition-all duration-300 flex-col w-[280px] h-screen px-4 py-8  bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700"
-              : "transtion-all duration-300 -translate-x-[400px] w-[280px] h-screen   bg-white  "
+              ? "flex transition-all lg:static z-50 absolute duration-300 flex-col w-[280px] h-screen px-4 py-8  bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700"
+              : "transtion-all duration-300 lg:static absolute z-50 -translate-x-[400px] w-[280px] h-screen   bg-white  "
           }
         >
           <Link to={"/"}>
