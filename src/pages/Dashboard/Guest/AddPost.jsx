@@ -1,26 +1,69 @@
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-
+import Select from "react-select";
+import useAuth from "../../../hooks/useAuth";
 function AddPost() {
+  const { user } = useAuth();
+
+  const options = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
+
+  const [isClearable, setIsClearable] = useState(true);
+
+  const handleAddPost = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const title = form.title.value;
+    const tags = form.tags.value;
+    const details = form.details.value;
+    console.log(title, tags, details);
+  };
+
   return (
     <div className="">
       <Helmet>
         <title>Ama | Add Post</title>
       </Helmet>
       <div className="bg-white  py-10">
-        <div className="heading text-center font-bold text-2xl  text-gray-800">
+        <div className="heading text-center pb-5 font-bold text-2xl  text-gray-800">
           New Post
         </div>
 
-        <div className="editor mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 shadow-lg max-w-2xl">
+        <form
+          onSubmit={handleAddPost}
+          className="editor mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 shadow-lg max-w-2xl"
+        >
+          <div className="flex items-center gap-4">
+            <img
+              className="w-12 h-12 my-4 rounded-full "
+              src={user?.photoURL}
+              alt=""
+            />
+            <div>
+              <h4 className="font-medium ">{user?.displayName}</h4>
+              <p className="text-xs">{user?.email}</p>
+            </div>
+          </div>
           <input
-            className="title bg-gray-100 border border-gray-300 p-2 mb-4 outline-none"
+            className="title rounded-md  border border-gray-300 p-2 mb-4 outline-none"
             spellCheck="false"
             placeholder="Title"
             type="text"
+            name="title"
+          />
+          <Select
+            isClearable={isClearable}
+            className=" border-gray-300 rounded-md  mb-4 outline-none"
+            options={options}
+            name="tags"
           />
           <textarea
-            className="description bg-gray-100 sec p-3 h-60 border border-gray-300 outline-none"
+            className="description rounded-md  sec p-3 h-60 border border-gray-300 outline-none"
             spellCheck="false"
+            name="details"
             placeholder="Describe everything about this post here"
           ></textarea>
 
@@ -79,15 +122,15 @@ function AddPost() {
             </div>
           </div>
           {/* <!-- buttons --> */}
-          <div className="buttons flex">
-            <div className="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer text-gray-500 ml-auto">
-              Cancel
-            </div>
-            <div className="btn border border-indigo-500 p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-2 bg-indigo-500">
+          <div className="buttons flex justify-end">
+            <button
+              type="submit"
+              className="btn rounded-md border border-indigo-500 p-1 px-4 font-semibold cursor-pointer text-white hover:bg-[#078668d9] duration-200 transition-all ml-2 bg-[#078669]"
+            >
               Post
-            </div>
+            </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
