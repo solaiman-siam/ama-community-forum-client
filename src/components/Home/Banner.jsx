@@ -11,6 +11,8 @@ function Banner() {
             Welcome to Ama Forum
           </h1>
 
+          <link rel="stylesheet" href="" />
+
           <div className="relative p-3  rounded-full w-full max-w-[620px]">
             <input
               type="text"

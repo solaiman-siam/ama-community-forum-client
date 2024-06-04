@@ -32,15 +32,15 @@ function Dashboard() {
   if (userLoading || loading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
-    <div className="font-poppins flex ">
+    <div className="font-poppins  flex ">
       <Helmet>
         <title>Ama | Dashboard</title>
       </Helmet>
-      <div>
+      <div className="w-64 bg-white z-50 fixed">
         <aside
           className={
             isOpen
-              ? "flex transition-all lg:static z-50 absolute duration-300 flex-col w-[280px] h-screen px-4 py-8  bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700"
+              ? "flex transition-all  lg:static z-50 absolute duration-300 flex-col w-[280px] h-screen px-4 py-8  bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700"
               : "transtion-all duration-300 lg:static absolute z-50 -translate-x-[400px] w-[280px] h-screen   bg-white  "
           }
         >
@@ -176,21 +176,21 @@ function Dashboard() {
           </div>
         </aside>
       </div>
-      <div className="absolute lg:hidden flex right-0 top-0 ">
+      <div className=" bg-gray-400 w-full lg:pl-[21.5vw] lg:w-[100vw] h-full">
+        <Outlet></Outlet>
+      </div>
+      <div className="absolute lg:hidden flex right-0 z-50 top-0 ">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="bg-gray-200 rounded-md p-0  absolute top-0 right-0  "
+          className=" rounded-md p-0  bg-gray-200  absolute top-0 right-0  "
         >
           <Hamburger
-            size={20}
-            color="gray"
+            size={24}
+            color="black"
             toggled={isOpenMenu}
             toggle={setOpenMenu}
           />
         </button>
-      </div>
-      <div className="w-full bg-gray-400 flex-1 h-full">
-        <Outlet></Outlet>
       </div>
     </div>
   );

@@ -16,6 +16,8 @@ function AddPost() {
     { value: "industry", label: "Industry" },
     { value: "conclusion", label: "Conclusion" },
     { value: "news", label: "News" },
+    { value: "science", label: "Science" },
+    { value: "fiction", label: "Fiction" },
     { value: "memes", label: "Memes" },
     { value: "business", label: "Business" },
     { value: "game", label: "Game" },
@@ -23,6 +25,7 @@ function AddPost() {
     { value: "blog", label: "Blog" },
     { value: "tips", label: "Tips" },
     { value: "religios", label: "Religios" },
+    { value: "politics", label: "Politics" },
   ];
 
   const [isClearable, setIsClearable] = useState(true);
@@ -68,18 +71,18 @@ function AddPost() {
   };
 
   return (
-    <div className="">
+    <div className="bg-gray-100 ">
       <Helmet>
         <title>Ama | Add Post</title>
       </Helmet>
-      <div className="bg-white  py-10">
+      <div className=" py-10">
         <div className="heading text-center pb-5 font-bold text-2xl  text-gray-800">
           New Post
         </div>
 
         <form
           onSubmit={handleAddPost}
-          className="editor mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 shadow-lg max-w-2xl"
+          className="editor mx-auto w-10/12 flex flex-col text-gray-800 border bg-white border-gray-300 p-4 shadow-lg max-w-2xl"
         >
           <div className="flex items-center gap-4">
             <img
@@ -106,7 +109,7 @@ function AddPost() {
             name="tag"
           />
           <textarea
-            className="description rounded-md  sec p-3 h-60 border border-gray-300 outline-none"
+            className="description rounded-md  sec p-3 h-36 border border-gray-300 outline-none"
             spellCheck="false"
             name="details"
             placeholder="Describe everything about this post here"

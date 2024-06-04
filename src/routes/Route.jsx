@@ -39,11 +39,11 @@ export const router = createBrowserRouter([
     errorElement: <Error></Error>,
     children: [
       // admin route
-      {
-        index: true,
-        element: <
+      // {
+      //   index: true,
+      //   element: <
 
-      },
+      // },
       {
         path: "/dashboard/admin-profile",
         element: <AdminProfile></AdminProfile>,
