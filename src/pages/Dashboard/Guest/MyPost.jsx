@@ -63,7 +63,7 @@ function MyPost() {
       <Helmet>
         <title>Ama | My Post</title>
       </Helmet>
-      <div className="bg-gray-100 min-h-screen py-12 px-6">
+      <div className="bg-gray-100 min-h-screen py-12  lg:py-6 px-6">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <div className="pb-4 bg-white dark:bg-gray-900"></div>
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

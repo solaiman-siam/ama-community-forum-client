@@ -4,21 +4,49 @@ import useAuth from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
 import LoadingSpinner from "../LoadingSpinner";
-
+import SearchTags from "./SearchTags";
+import Announcement from "./Announcement";
+import { LuArrowBigDown, LuArrowBigUp } from "react-icons/lu";
+import "react-tooltip/dist/react-tooltip.css";
+import { Tooltip } from "react-tooltip";
+import { useState } from "react";
 function AllPost() {
   const { user } = useAuth();
   const axiosCommon = useAxiosCommon();
-  const recentPost = [];
+
+  const [allPost, setAllPost] = useState([]);
+  const [tag, setTag] = useState("");
 
   //   get all post
 
-  const { data: allPost = [], isLoading } = useQuery({
+  const { data: alllPost = [], isLoading } = useQuery({
     queryKey: ["all-post"],
     queryFn: async () => {
       const { data } = await axiosCommon.get("/all-post");
+      setAllPost(data);
       return data;
     },
   });
+
+  const { data: data2 = [], isLoading: isLoading2 } = useQuery({
+    queryKey: ["tag-search", tag],
+    enabled: !!tag,
+    queryFn: async () => {
+      const { data } = await axiosCommon.get(`/tag-search?tag=${tag}`);
+      setAllPost(data);
+      return data;
+    },
+  });
+
+  //   get tage search data
+
+  const handleTagSearch = (value) => {
+    setTag(value);
+  };
+  // load all post
+  const handleAllPost = () => {
+    setAllPost(alllPost);
+  };
 
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
 
@@ -39,13 +67,16 @@ function AllPost() {
             <div className="bg-white rounded-md w-full py-3 px-6 shadow-sm my-6">
               <ul className="flex gap-2">
                 <li>
-                  <button className="flex gap-1 text-gray-600 transition-all duration-200 rounded-md hover:bg-gray-100 px-4 py-1 items-center">
+                  <button
+                    onClick={handleAllPost}
+                    className="flex gap-1 border-b-2 border-white  focus:border-green-400 text-gray-600 transition-all duration-200  hover:bg-gray-100 px-4 py-1 items-center"
+                  >
                     <PiSquaresFourFill size={20} />
                     <span>All</span>
                   </button>
                 </li>
                 <li>
-                  <button className="flex gap-1 text-gray-600  transition-all duration-200 rounded-md hover:bg-gray-100 px-4 py-1 items-center">
+                  <button className="flex border-b-2 border-white focus:border-green-400 gap-1 text-gray-600  transition-all duration-200  hover:bg-gray-100 px-4 py-1 items-center">
                     <HiTrendingUp size={20} /> <span>Popular</span>
                   </button>
                 </li>
@@ -53,6 +84,11 @@ function AllPost() {
             </div>
             <div>
               <ul className="space-y-4   bg-gray-100 pb-6 pt-1 ">
+                {allPost.length < 1 && (
+                  <p className="text-center font-medium text-gray-700">
+                    No Post Available !
+                  </p>
+                )}
                 {allPost.map((post) => (
                   <li
                     key={post._id}
@@ -108,33 +144,35 @@ function AllPost() {
                           id="question-title-81614"
                           className="mt-4 text-base font-medium text-gray-900"
                         >
-                          {post.title}...
+                          {post.title}
                         </h2>
                       </div>
 
                       <div className="mt-6 flex justify-between space-x-8">
-                        <div className="flex space-x-6">
-                          <span className="inline-flex items-center text-sm">
+                        <div className="flex ">
+                          <span className="inline-flex items-center px-3 py-1.5 rounded-l-full bg-gray-50 hover:bg-gray-200 text-sm">
                             <button
                               type="button"
-                              className="inline-flex space-x-2 text-gray-400 hover:text-gray-500"
+                              className="inline-flex items-center space-x-2 text-gray-400 "
                             >
-                              <svg
-                                className="h-5 w-5"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                aria-hidden="true"
-                              >
-                                <path d="M1 8.25a1.25 1.25 0 112.5 0v7.5a1.25 1.25 0 11-2.5 0v-7.5zM11 3V1.7c0-.268.14-.526.395-.607A2 2 0 0114 3c0 .995-.182 1.948-.514 2.826-.204.54.166 1.174.744 1.174h2.52c1.243 0 2.261 1.01 2.146 2.247a23.864 23.864 0 01-1.341 5.974C17.153 16.323 16.072 17 14.9 17h-3.192a3 3 0 01-1.341-.317l-2.734-1.366A3 3 0 006.292 15H5V8h.963c.685 0 1.258-.483 1.612-1.068a4.011 4.011 0 012.166-1.73c.432-.143.853-.386 1.011-.814.16-.432.248-.9.248-1.388z"></path>
-                              </svg>
-                              <span className="font-medium text-gray-900">
-                                {post.upVote}
+                              <LuArrowBigUp size={22} />
+                              <span className=" text-sm  text-gray-600">
+                                Upvote {post.upVote}
                               </span>
-                              <span className="sr-only">Vote</span>
                             </button>
                           </span>
-                          <span className="inline-flex items-center text-sm">
+                          <span className="inline-flex items-center px-3 py-1.5 rounded-r-full border-l border bg-gray-50 hover:bg-gray-200 text-sm">
+                            <button
+                              type="button"
+                              data-tooltip-id="my-tooltip"
+                              data-tooltip-content="DownVote"
+                              className="inline-flex items-center  text-gray-400 "
+                            >
+                              <LuArrowBigDown size={22} />
+                            </button>
+                            <Tooltip id="my-tooltip" />
+                          </span>
+                          <span className="inline-flex pl-6 items-center text-sm">
                             <button
                               type="button"
                               className="inline-flex space-x-2 text-gray-400 hover:text-gray-500"
@@ -152,7 +190,7 @@ function AllPost() {
                                   clipRule="evenodd"
                                 ></path>
                               </svg>
-                              <span className="font-medium text-gray-900">
+                              <span className="font-medium text-gray-600">
                                 11
                               </span>
                               <span className="sr-only">replies</span>
@@ -180,8 +218,56 @@ function AllPost() {
                 ))}
               </ul>
             </div>
+            <div className="flex py-4 justify-end">
+              <button className="px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white  dark:bg-gray-800 dark:text-gray-200 hover:bg-blue-500 dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200">
+                <div className="flex items-center -mx-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-6 h-6 mx-1 rtl:-scale-x-100"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M7 16l-4-4m0 0l4-4m-4 4h18"
+                    />
+                  </svg>
+                </div>
+              </button>
+
+              <button className="hidden px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white  sm:inline dark:bg-gray-800 dark:text-gray-200 hover:bg-blue-500 dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200">
+                1
+              </button>
+
+              <button className="px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white  dark:bg-gray-800 dark:text-gray-200 hover:bg-blue-500 dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200">
+                <div className="flex items-center -mx-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-6 h-6 mx-1 rtl:-scale-x-100"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </div>
+              </button>
+            </div>
           </div>
-          <div className="col-span-2 bg-red-400"></div>
+          <div className="col-span-2">
+            <div className="">
+              <SearchTags handleTagSearch={handleTagSearch}></SearchTags>
+              <Announcement></Announcement>
+            </div>
+          </div>
         </div>
       </div>
     </div>

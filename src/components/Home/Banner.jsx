@@ -1,11 +1,12 @@
 import triangle from "../../assets/triangle.svg";
 import cube from "../../assets/cube.svg";
 import { FaSearch } from "react-icons/fa";
+import SearchTags from "./SearchTags";
 
 function Banner() {
   return (
-    <div>
-      <div className="bg-[url('https://i.postimg.cc/Bv96Dj11/shape.png')]  w-full h-[600px]  bg-cover bg-left">
+    <div className="">
+      <div className="bg-[url('https://i.postimg.cc/Bv96Dj11/shape.png')]  w-full h-[500px]  bg-cover bg-left">
         <div className=" flex justify-center items-center w-full flex-col h-full">
           <h1 className="text-white font-semibold text-[55px] ">
             Welcome to Ama Forum
@@ -46,7 +47,7 @@ function Banner() {
         </div>
         <div>
           <img
-            className="absolute right-16 top-96 opacity-50"
+            className="absolute right-16 top-72 opacity-50"
             src={cube}
             alt=""
           />
