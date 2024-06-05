@@ -18,6 +18,8 @@ function AuthContextProvider({ children }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
+  console.log(user);
+
   // google provider
   const googleProvider = new GoogleAuthProvider();
 

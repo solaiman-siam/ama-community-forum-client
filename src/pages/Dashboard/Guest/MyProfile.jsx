@@ -114,7 +114,12 @@ function MyProfile() {
           </div>
         </div>
       </div>
-      <ul className="space-y-4 px-4 pt-4 lg:px-4 bg-gray-100 py-6 ">
+      <ul className="space-y-4 px-4 pt-4 min-h-[60vh] lg:px-4 bg-gray-100 py-6 ">
+        {recentPost.length < 1 && (
+          <div>
+            <h4 className="py-4 text-center">No Post Available!</h4>
+          </div>
+        )}
         {recentPost.slice(0, 3).map((recent) => (
           <li
             key={recent._id}

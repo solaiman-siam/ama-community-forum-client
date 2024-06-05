@@ -121,6 +121,11 @@ function MyPost() {
               ))}
             </tbody>
           </table>
+          {posts.length < 1 && (
+            <div>
+              <h4 className="text-center my-8">No Data Available!</h4>
+            </div>
+          )}
         </div>
       </div>
     </div>

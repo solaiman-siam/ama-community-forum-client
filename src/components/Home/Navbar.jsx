@@ -3,9 +3,12 @@ import logo from "../../assets/logo-w.png";
 import { IoNotifications } from "react-icons/io5";
 import useAuth from "../../hooks/useAuth";
 import { Avatar, Dropdown } from "flowbite-react";
+import useNotificationCount from "../../hooks/useNotificationCount";
+import { Tooltip } from "react-tooltip";
 
 function Navbar() {
   const { user, logOut } = useAuth();
+  const [count] = useNotificationCount();
 
   const handleLogout = () => {
     logOut();
@@ -33,11 +36,14 @@ function Navbar() {
               <NavLink>
                 <button
                   type="button"
+                  data-tooltip-id="my-tooltip"
+                  data-tooltip-content="Announcement"
                   className="relative inline-flex items-center p-1 text-sm font-medium text-center text-white rounded-lg  focus:outline-none focus:ring-blue-300  dark:hover:bg-blue-700 "
                 >
+                  <Tooltip className="bg-white text-white" id="my-tooltip" />
                   <IoNotifications size={24} />
                   <div className="absolute inline-flex items-center justify-center w-6 h- text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
-                    20
+                    {count?.length}
                   </div>
                 </button>
               </NavLink>

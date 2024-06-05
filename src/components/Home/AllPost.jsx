@@ -46,6 +46,7 @@ function AllPost() {
   // load all post
   const handleAllPost = () => {
     setAllPost(alllPost);
+    setTag("");
   };
 
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
@@ -84,7 +85,7 @@ function AllPost() {
             </div>
             <div>
               <ul className="space-y-4   bg-gray-100 pb-6 pt-1 ">
-                {allPost.length < 1 && (
+                {allPost?.length < 1 && (
                   <p className="text-center font-medium text-gray-700">
                     No Post Available !
                   </p>

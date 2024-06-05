@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import Banner from "../components/Home/Banner";
+import Payment from "../components/Payment/Payment";
 
 function Membership() {
   const membership = true;
@@ -10,8 +11,8 @@ function Membership() {
         <title>Ama | Membership</title>
       </Helmet>
       <Banner membership={membership}></Banner>
-      <div className="max-w-6xl mx-auto">
-        <div className="flex  py-20">
+      <div className="max-w-6xl w-full gap-24 flex mx-auto">
+        <div className="flex w-[600px]   py-20">
           <div className="bg-white rounded-lg overflow-hidden shadow-lg">
             <div className="px-6 py-8">
               <h2 className="text-3xl font-semibold text-gray-800 mb-2">
@@ -98,6 +99,18 @@ function Membership() {
               </ul>
             </div>
           </div>
+        </div>
+        <div className="w-full py-20 flex flex-col justify-center">
+          <h3 className="text-3xl font-semibold pb-4">
+            Pay to get your Membership{" "}
+          </h3>
+          <p className="text-gray-700 pb-10">
+            Holisticly harness interactive partnerships whereas virtual metrics.
+            Quickly re-engineer business collaboration and idea-sharing before
+            transparent action items. Conveniently embrace integrated action
+            items.
+          </p>
+          <Payment></Payment>
         </div>
       </div>
     </div>

@@ -13,6 +13,7 @@ import MyProfile from "../pages/Dashboard/Guest/MyProfile";
 import AddPost from "../pages/Dashboard/Guest/AddPost";
 import MyPost from "../pages/Dashboard/Guest/MyPost";
 import Membership from "../pages/Membership";
+import CommonRoute from "../pages/CommonRoute";
 
 export const router = createBrowserRouter([
   {
@@ -25,9 +26,9 @@ export const router = createBrowserRouter([
         element: <Home></Home>,
       },
       {
-        path: '/membership',
-        element: <Membership></Membership>
-      }
+        path: "/membership",
+        element: <Membership></Membership>,
+      },
     ],
   },
   {
@@ -44,11 +45,10 @@ export const router = createBrowserRouter([
     errorElement: <Error></Error>,
     children: [
       // admin route
-      // {
-      //   index: true,
-      //   element: <
-
-      // },
+      {
+        index: true,
+        element: <CommonRoute></CommonRoute>,
+      },
       {
         path: "/dashboard/admin-profile",
         element: <AdminProfile></AdminProfile>,
