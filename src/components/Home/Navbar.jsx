@@ -26,7 +26,7 @@ function Navbar() {
               <div className="bg-white h-[0.5px] w-0  group-hover:w-full transition-all duration-300"></div>
             </li>
             <li className="text-sm font-medium  group">
-              <NavLink>Membership</NavLink>
+              <NavLink to={"/membership"}>Membership</NavLink>
               <div className="bg-white h-[0.5px] w-0  group-hover:w-full transition-all duration-300"></div>
             </li>
             <li className="text-sm font-medium  group">

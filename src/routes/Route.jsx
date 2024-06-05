@@ -12,6 +12,7 @@ import MakeAnnouncement from "../pages/Dashboard/Admin/MakeAnnouncement";
 import MyProfile from "../pages/Dashboard/Guest/MyProfile";
 import AddPost from "../pages/Dashboard/Guest/AddPost";
 import MyPost from "../pages/Dashboard/Guest/MyPost";
+import Membership from "../pages/Membership";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
         index: true,
         element: <Home></Home>,
       },
+      {
+        path: '/membership',
+        element: <Membership></Membership>
+      }
     ],
   },
   {

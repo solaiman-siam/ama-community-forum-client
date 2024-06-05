@@ -92,7 +92,7 @@ function AllPost() {
                 {allPost.map((post) => (
                   <li
                     key={post._id}
-                    className="bg-white hover:shadow-2xl cursor-pointer transition-all duration-700 px-4 py-6 shadow sm:rounded-lg sm:p-6"
+                    className="bg-white mr-0.5 hover:mr-0 hover:shadow-2xl cursor-pointer transition-all duration-500 px-4 py-6 shadow sm:rounded-lg sm:p-6"
                   >
                     <article aria-labelledby="question-title-81614">
                       <div>
@@ -219,7 +219,7 @@ function AllPost() {
               </ul>
             </div>
             <div className="flex py-4 justify-end">
-              <button className="px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white  dark:bg-gray-800 dark:text-gray-200 hover:bg-blue-500 dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200">
+              <button className="px-3 py-1.5 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-sm  dark:bg-gray-800 dark:text-gray-200 hover:bg-[#078669] dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200">
                 <div className="flex items-center -mx-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -238,11 +238,11 @@ function AllPost() {
                 </div>
               </button>
 
-              <button className="hidden px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white  sm:inline dark:bg-gray-800 dark:text-gray-200 hover:bg-blue-500 dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200">
+              <button className="hidden px-3 py-1.5 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-sm sm:inline dark:bg-gray-800 dark:text-gray-200 hover:bg-[#078669] dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200">
                 1
               </button>
 
-              <button className="px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white  dark:bg-gray-800 dark:text-gray-200 hover:bg-blue-500 dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200">
+              <button className="px-3 py-1.5 mx-1 text-gray-700 transition-colors duration-300 transform rounded-sm bg-white  dark:bg-gray-800 dark:text-gray-200 hover:bg-[#078669] dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200">
                 <div className="flex items-center -mx-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
