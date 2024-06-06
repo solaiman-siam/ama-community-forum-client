@@ -5,7 +5,6 @@ import AllPost from "../components/Home/AllPost";
 
 function Home() {
   const [userRole] = useRole();
-  console.log(userRole);
 
   return (
     <div>

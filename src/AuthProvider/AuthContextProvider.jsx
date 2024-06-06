@@ -11,14 +11,14 @@ import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/firebase.config";
 import useAxiosCommon from "../hooks/useAxiosCommon";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 export const AuthContext = createContext();
 function AuthContextProvider({ children }) {
   const axiosCommon = useAxiosCommon();
+  const axiosSecure = useAxiosSecure();
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
-
-  console.log(user);
 
   // google provider
   const googleProvider = new GoogleAuthProvider();
@@ -61,12 +61,15 @@ function AuthContextProvider({ children }) {
       if (currentUser) {
         const { data } = await axiosCommon.post("/users", userData);
         console.log(data);
+
+        const res = await axiosSecure.post("/jwt", email);
+        console.log(res.data);
       }
     });
     return () => {
       unSubscribe();
     };
-  }, [axiosCommon]);
+  }, [axiosCommon, axiosSecure]);
 
   // update profile
   const updateUserProfile = (displayName, photoURL) => {
