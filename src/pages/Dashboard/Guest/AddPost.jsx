@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Select from "react-select";
 import useAuth from "../../../hooks/useAuth";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import LoadingSpinner from "../../../components/LoadingSpinner";
 function AddPost() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
@@ -49,6 +50,22 @@ function AddPost() {
     },
   });
 
+  const { data: posts = [], loading: loading1 } = useQuery({
+    queryKey: ["my-post", user?.email],
+    queryFn: async () => {
+      const { data } = await axiosSecure(`/my-post/${user?.email}`);
+      return data;
+    },
+  });
+
+  const { data: postLimit = {}, loading: loading2 } = useQuery({
+    queryKey: ["post-limit"],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/membership/${user?.email}`);
+      return data.postLimit;
+    },
+  });
+
   const handleAddPost = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -69,6 +86,24 @@ function AddPost() {
     console.log(postData);
     await mutateAsync(postData);
   };
+
+  if (loading) return <LoadingSpinner></LoadingSpinner>;
+
+  if (posts.length >= 5 && postLimit === "limited") {
+    return (
+      <Link to="/membership">
+        <div className="w-full h-screen flex flex-col  justify-center items-center bg-[#F3F4F6]">
+          <p className="py-4 text-gray-600 font-medium w-7/12 text-center">
+            You exeeds your post Limit. If your want to make unlimited post than
+            become a member an enjoy
+          </p>
+          <button className="px-4 py-2 text-white rounded-md bg-green-400">
+            Become a Member
+          </button>
+        </div>
+      </Link>
+    );
+  }
 
   return (
     <div className="bg-gray-100 ">

@@ -12,16 +12,35 @@ import { Tooltip } from "react-tooltip";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useRole from "../../hooks/useRole";
-function AllPost() {
+function AllPost({ searchTag }) {
   const { user } = useAuth();
   const axiosCommon = useAxiosCommon();
   const [role] = useRole();
 
+  console.log(searchTag);
+
   const [allPost, setAllPost] = useState([]);
   const [tag, setTag] = useState("");
 
-  //   get all post
+  // get searc post
+  const { data: searchPost = [] } = useQuery({
+    queryKey: ["search-post", searchTag],
+    queryFn: async () => {
+      const { data } = await axiosCommon.get(
+        `/search-post?searchTag=${searchTag}`
+      );
+      setAllPost(data);
+      if (data.length > 0) {
+        const { data } = await axiosCommon.post(
+          `/store-searchTag?storeTag=${searchTag}`
+        );
+        console.log(data);
+      }
+      return data;
+    },
+  });
 
+  //   get all post
   const { data: alllPost = [], isLoading } = useQuery({
     queryKey: ["all-post"],
     queryFn: async () => {
@@ -30,7 +49,7 @@ function AllPost() {
       return data;
     },
   });
-
+  // get tag search
   const { data: data2 = [], isLoading: isLoading2 } = useQuery({
     queryKey: ["tag-search", tag],
     enabled: !!tag,

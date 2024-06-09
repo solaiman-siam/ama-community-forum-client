@@ -14,6 +14,7 @@ import AddPost from "../pages/Dashboard/Guest/AddPost";
 import MyPost from "../pages/Dashboard/Guest/MyPost";
 import Membership from "../pages/Membership";
 import CommonRoute from "../pages/CommonRoute";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -27,7 +28,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/membership",
-        element: <Membership></Membership>,
+        element: (
+          <PrivateRoute>
+            <Membership></Membership>
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -47,37 +52,68 @@ export const router = createBrowserRouter([
       // admin route
       {
         index: true,
-        element: <CommonRoute></CommonRoute>,
+        element: (
+          <PrivateRoute>
+            <CommonRoute></CommonRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/admin-profile",
-        element: <AdminProfile></AdminProfile>,
+        element: (
+          <PrivateRoute>
+            <AdminProfile></AdminProfile>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/manage-users",
-        element: <ManageUsers></ManageUsers>,
+        element: (
+          <PrivateRoute>
+            <ManageUsers></ManageUsers>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/reported-activities",
-        element: <ReportActivities></ReportActivities>,
+        element: (
+          <PrivateRoute>
+            <ReportActivities></ReportActivities>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/make-announcement",
-        element: <MakeAnnouncement></MakeAnnouncement>,
+        element: (
+          <PrivateRoute>
+            <MakeAnnouncement></MakeAnnouncement>
+          </PrivateRoute>
+        ),
       },
-
       // guest/user route
       {
         path: "/dashboard/my-profile",
-        element: <MyProfile></MyProfile>,
+        element: (
+          <PrivateRoute>
+            <MyProfile></MyProfile>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/add-post",
-        element: <AddPost></AddPost>,
+        element: (
+          <PrivateRoute>
+            <AddPost></AddPost>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/my-post",
-        element: <MyPost></MyPost>,
+        element: (
+          <PrivateRoute>
+            <MyPost></MyPost>
+          </PrivateRoute>
+        ),
       },
     ],
   },

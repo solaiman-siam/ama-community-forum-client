@@ -1,12 +1,12 @@
 import { Helmet } from "react-helmet-async";
-import useRole from "../../../hooks/useRole";
+
 import useAuth from "../../../hooks/useAuth";
 import bronze from "../../../assets/bronze-badge.png";
+import gold from "../../../assets/gold-badge.png";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 function MyProfile() {
-  const [role] = useRole();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
@@ -15,6 +15,14 @@ function MyProfile() {
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/recent-post/${user?.email}`);
       return data;
+    },
+  });
+
+  const { data: membershipStatus = {} } = useQuery({
+    queryKey: ["membership"],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/membership/${user?.email}`);
+      return data.membershipStatus;
     },
   });
 
@@ -43,10 +51,15 @@ function MyProfile() {
             />
           </div>
 
-          <div className="   -mt-6 absolute left-10 ">
-            {role === "guest" && (
+          <div className="   -mt-6 absolute left-8 ">
+            {membershipStatus === "User" && (
               <>
-                <img className="w-10 z-10" src={bronze} alt="" />
+                <img className="w-14 z-10" src={bronze} alt="" />
+              </>
+            )}
+            {membershipStatus === "Member" && (
+              <>
+                <img className="w-14 z-10" src={gold} alt="" />
               </>
             )}
           </div>

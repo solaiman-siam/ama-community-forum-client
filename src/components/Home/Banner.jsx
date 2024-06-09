@@ -1,9 +1,20 @@
 import triangle from "../../assets/triangle.svg";
 import cube from "../../assets/cube.svg";
 import { FaSearch } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosCommon from "../../hooks/useAxiosCommon";
 
-function Banner({ membership }) {
-  console.log(membership);
+function Banner({ membership, handleSearch }) {
+  const axiosCommon = useAxiosCommon();
+
+  const { data: storedTags = [] } = useQuery({
+    queryKey: ["stored-tags"],
+    queryFn: async () => {
+      const { data } = await axiosCommon.get("/stored-tags");
+      return data;
+    },
+  });
+
   return (
     <div className="">
       <div
@@ -20,28 +31,31 @@ function Banner({ membership }) {
 
               <link rel="stylesheet" href="" />
 
-              <div className="relative p-3  rounded-full w-full max-w-[620px]">
+              <form
+                onSubmit={handleSearch}
+                className="relative p-3  rounded-full w-full max-w-[620px]"
+              >
                 <input
                   type="text"
                   className="rounded-full w-full py-3 px-6  "
                   placeholder="Search"
+                  name="tagSearch"
                 />
 
                 <button type="submit" className="absolute right-8 top-7">
                   <FaSearch size={16} />
                 </button>
-              </div>
+              </form>
               <div className="flex gap-2 items-center mt-1.5">
                 <h4 className="text-white">Popular: </h4>
-                <span className="text-sm bg-[#484A93] rounded-full text-white px-3">
-                  Abcd
-                </span>
-                <span className="text-sm bg-[#484A93] rounded-full text-white px-3">
-                  Abcd
-                </span>
-                <span className="text-sm bg-[#484A93] rounded-full text-white px-3">
-                  Abcd
-                </span>
+                {storedTags.map((tag) => (
+                  <span
+                    key={tag._id}
+                    className="text-sm bg-[#484A93] rounded-full text-white px-3"
+                  >
+                    {tag.tag}
+                  </span>
+                ))}
               </div>
             </div>
           </>

@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import { axiosCommon } from "../../hooks/useAxiosCommon";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 function CheckoutForm() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const stripe = useStripe();
   const elements = useElements();
@@ -71,6 +73,11 @@ function CheckoutForm() {
           title: "Payment Successful",
           showConfirmButton: false,
           timer: 1500,
+        });
+
+        axiosCommon.post(`/upgrade/${user?.email}`).then((res) => {
+          console.log(res.data);
+          navigate("/dashboard/my-profile");
         });
       }
     }

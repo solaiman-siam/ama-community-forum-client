@@ -55,10 +55,11 @@ function AuthContextProvider({ children }) {
       // save current user to db
       const name = currentUser?.displayName;
       const email = currentUser?.email;
-      const membershipStatus = "Normal User";
+      const membershipStatus = "User";
       const role = "guest";
       const date = new Date();
-      const userData = { name, email, role, date, membershipStatus };
+      const postLimit = "limited";
+      const userData = { name, email, role, date, membershipStatus, postLimit };
       if (currentUser) {
         const { data } = await axiosCommon.post("/users", userData);
         console.log(data);
