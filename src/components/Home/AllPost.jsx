@@ -10,9 +10,12 @@ import { LuArrowBigDown, LuArrowBigUp } from "react-icons/lu";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import useRole from "../../hooks/useRole";
 function AllPost() {
   const { user } = useAuth();
   const axiosCommon = useAxiosCommon();
+  const [role] = useRole();
 
   const [allPost, setAllPost] = useState([]);
   const [tag, setTag] = useState("");
@@ -61,9 +64,23 @@ function AllPost() {
           <div className="col-span-4 ">
             <div className="flex justify-between items-center">
               <h3 className="text-[42px] font-semibold text-[#1D2746]">Ama</h3>
-              <button className="font-medium transition-all duration-200 px-6 py-4 hover:bg-[#06BD95] bg-[#078669] rounded-full text-white ">
-                Add New Post
-              </button>
+              {role === "guest" && (
+                <Link to={"/dashboard/add-post"}>
+                  <button className="font-medium transition-all duration-200 px-6 py-4 hover:bg-[#06BD95] bg-[#078669] rounded-full text-white ">
+                    Add New Post
+                  </button>
+                </Link>
+              )}
+              {role === "admin" && (
+                <Link>
+                  <button
+                    disabled
+                    className="font-medium transition-all disabled:cursor-not-allowed duration-200 px-6 py-4 hover:bg-[#06BD95] bg-[#078669] rounded-full text-white "
+                  >
+                    Add New Post
+                  </button>
+                </Link>
+              )}
             </div>
             <div className="bg-white rounded-md w-full py-3 px-6 shadow-sm my-6">
               <ul className="flex gap-2">

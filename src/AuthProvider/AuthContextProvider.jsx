@@ -63,7 +63,7 @@ function AuthContextProvider({ children }) {
         const { data } = await axiosCommon.post("/users", userData);
         console.log(data);
 
-        const res = await axiosSecure.post("/jwt", email);
+        const res = await axiosCommon.post("/jwt", email);
         console.log(res.data);
       }
     });
