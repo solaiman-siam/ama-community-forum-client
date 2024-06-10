@@ -15,6 +15,7 @@ import MyPost from "../pages/Dashboard/Guest/MyPost";
 import Membership from "../pages/Membership";
 import CommonRoute from "../pages/CommonRoute";
 import PrivateRoute from "./PrivateRoute";
+import PostDetails from "../pages/PostDetails";
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +32,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Membership></Membership>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/post-details/:id",
+        element: (
+          <PrivateRoute>
+            <PostDetails></PostDetails>
           </PrivateRoute>
         ),
       },

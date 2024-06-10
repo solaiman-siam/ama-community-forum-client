@@ -82,6 +82,7 @@ function AddPost() {
       upVote: 0,
       downVote: 0,
       date: new Date(),
+      comment: 0,
     };
     console.log(postData);
     await mutateAsync(postData);
