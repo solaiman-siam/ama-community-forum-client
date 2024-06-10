@@ -231,7 +231,7 @@ function AllPost({ searchTag }) {
                                   ></path>
                                 </svg>
                                 <span className="font-medium text-gray-600">
-                                  11
+                                  {post.comment}
                                 </span>
                                 <span className="sr-only">replies</span>
                               </button>
