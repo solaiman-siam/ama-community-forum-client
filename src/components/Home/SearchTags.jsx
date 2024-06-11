@@ -13,8 +13,8 @@ function SearchTags({ handleTagSearch }) {
   });
 
   return (
-    <div className=" flex-col  flex pt-4">
-      <h4 className="text-2xl text-[#1D2746] font-semibold pb-8">
+    <div className=" flex-col  flex lg:pt-4">
+      <h4 className="text-2xl text-[#1D2746] font-semibold pb-4 md:pb-6 lg:pb-8">
         Search Tags
       </h4>
       <div className=" ">

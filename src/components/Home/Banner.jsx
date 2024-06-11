@@ -19,13 +19,13 @@ function Banner({ membership, handleSearch }) {
     <div className="">
       <div
         className={`bg-[url('https://i.postimg.cc/Bv96Dj11/shape.png')]  w-full ${
-          membership ? "h-[80px]" : "h-[500px]"
+          membership ? "h-[80px]" : "lg:h-[500px] h-[400px]"
         }   bg-cover bg-left`}
       >
         {!membership && (
           <>
-            <div className=" flex justify-center items-center w-full flex-col h-full">
-              <h1 className="text-white font-semibold text-[55px] ">
+            <div className=" flex justify-center text-center items-center w-full flex-col h-full">
+              <h1 className="text-white font-semibold lg:pb-2 text-4xl md:text-4xl lg:text-[55px] ">
                 Welcome to Ama Forum
               </h1>
 
@@ -46,12 +46,12 @@ function Banner({ membership, handleSearch }) {
                   <FaSearch size={16} />
                 </button>
               </form>
-              <div className="flex gap-2 items-center mt-1.5">
+              <div className="flex gap-2  items-center mt-1.5">
                 <h4 className="text-white">Popular: </h4>
                 {storedTags.map((tag) => (
                   <span
                     key={tag._id}
-                    className="text-sm bg-[#484A93] rounded-full text-white px-3"
+                    className="lg:text-sm text-xs md:text-sm  bg-[#484A93] rounded-full text-white px-1.5 md:px-2 lg:px-3"
                   >
                     {tag.tag}
                   </span>
