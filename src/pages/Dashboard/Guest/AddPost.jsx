@@ -12,22 +12,37 @@ function AddPost() {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
-  const options = [
-    { value: "entertainment", label: "Entertainment" },
-    { value: "industry", label: "Industry" },
-    { value: "conclusion", label: "Conclusion" },
-    { value: "news", label: "News" },
-    { value: "science", label: "Science" },
-    { value: "fiction", label: "Fiction" },
-    { value: "memes", label: "Memes" },
-    { value: "business", label: "Business" },
-    { value: "game", label: "Game" },
-    { value: "stories", label: "Stories" },
-    { value: "blog", label: "Blog" },
-    { value: "tips", label: "Tips" },
-    { value: "religios", label: "Religios" },
-    { value: "politics", label: "Politics" },
-  ];
+  const { data: storedTags = [], refetch } = useQuery({
+    queryKey: ["all-tags"],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get("/all-tags");
+      return data;
+    },
+  });
+
+  // console.log(storedTags);
+
+  const options = storedTags.map((element) => ({
+    value: element.tags,
+    label: element.tags,
+  }));
+
+  // const options = [
+  //   { value: "entertainment", label: "Entertainment" },
+  //   { value: "industry", label: "Industry" },
+  //   { value: "conclusion", label: "Conclusion" },
+  //   { value: "news", label: "News" },
+  //   { value: "science", label: "Science" },
+  //   { value: "fiction", label: "Fiction" },
+  //   { value: "memes", label: "Memes" },
+  //   { value: "business", label: "Business" },
+  //   { value: "game", label: "Game" },
+  //   { value: "stories", label: "Stories" },
+  //   { value: "blog", label: "Blog" },
+  //   { value: "tips", label: "Tips" },
+  //   { value: "religios", label: "Religios" },
+  //   { value: "politics", label: "Politics" },
+  // ];
 
   const [isClearable, setIsClearable] = useState(true);
 

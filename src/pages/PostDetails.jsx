@@ -21,9 +21,9 @@ function PostDetails() {
   });
 
   const { data: allComments = [], refetch } = useQuery({
-    queryKey: ["all-comments", post._id],
+    queryKey: ["all-comments", post.title],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(`/comments/${post._id}`);
+      const { data } = await axiosSecure.get(`/comments/${post.title}`);
       return data;
     },
   });
@@ -46,7 +46,7 @@ function PostDetails() {
     e.preventDefault();
     const message = e.target.comment.value;
     const commentData = {
-      postId: post._id,
+      title: post.title,
       message,
       commenterName: user?.displayName,
       commenterImage: user?.photoURL,

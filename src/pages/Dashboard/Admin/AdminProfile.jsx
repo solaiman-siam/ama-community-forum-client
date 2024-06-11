@@ -59,16 +59,25 @@ function AdminProfile() {
       </text>
     );
   };
+  // get all tags
+  const { data: storedTags = [], refetch } = useQuery({
+    queryKey: ["all-tags"],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get("/all-tags");
+      return data;
+    },
+  });
 
   // add tags to db
   const { mutateAsync } = useMutation({
     mutationFn: async (tags) => {
-      const { data } = await axiosSecure.post("/admin-tags", tags);
+      const { data } = await axiosSecure.post("/all-tags", { tags });
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       if (data.insertedId) {
         console.log("tag addede successful");
+        refetch();
       }
     },
   });
@@ -76,7 +85,10 @@ function AdminProfile() {
   // handle add tags
   const handleAddTags = async (e) => {
     e.preventDefault();
-    await mutateAsync(e.target.tags.value);
+    const tags = e.target.tags.value;
+    const convertedTags = tags.toLowerCase();
+    await mutateAsync(convertedTags);
+    e.target.reset();
   };
 
   return (
@@ -191,6 +203,16 @@ function AdminProfile() {
             </button>
           </div>
         </form>
+        <div className="px-24   py-4">
+          {storedTags.map((element) => (
+            <p
+              className="bg-gray-200 inline-flex m-1  rounded-md px-2 py-1"
+              key={element._id}
+            >
+              #{element.tags}
+            </p>
+          ))}
+        </div>
       </div>
     </div>
   );

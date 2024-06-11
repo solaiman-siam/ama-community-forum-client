@@ -16,6 +16,7 @@ import Membership from "../pages/Membership";
 import CommonRoute from "../pages/CommonRoute";
 import PrivateRoute from "./PrivateRoute";
 import PostDetails from "../pages/PostDetails";
+import AllComments from "../pages/Dashboard/Guest/AllComments";
 
 export const router = createBrowserRouter([
   {
@@ -123,6 +124,10 @@ export const router = createBrowserRouter([
             <MyPost></MyPost>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/dashboard/comment/:title",
+        element: <AllComments></AllComments>,
       },
     ],
   },

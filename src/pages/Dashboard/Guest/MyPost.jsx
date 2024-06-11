@@ -105,13 +105,16 @@ function MyPost() {
                   <td className="pr-6 text-left pl-8 py-4">{post.upVote}</td>
                   <td className="pr-6 pl-8 py-4 uppercase">{post.tag}</td>
                   <td className="pl-6 pr-0 py-4">
-                    <Link className="font-medium bg-[#078669] px-3 text-white py-1.5 rounded-md">
-                      Comment
+                    <Link
+                      to={`/dashboard/comment/${post.title}`}
+                      className="font-medium bg-[#078669] px-3 text-white py-1.5 rounded-md"
+                    >
+                      Comment-{post.comment}
                     </Link>
                   </td>
                   <td className="px-6 py-4">
                     <button
-                      onClick={() => handleDeletePost(post._id)}
+                      onClick={() => handleDeletePost(post.title)}
                       className="font-medium hover:bg-red-500 hover:bg-opacity-100 bg-opacity-90 transition-all duration-200 bg-red-500 rounded-md px-3 py-1.5 text-white "
                     >
                       Delete
