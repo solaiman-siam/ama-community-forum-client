@@ -14,7 +14,8 @@ function PostDetails() {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const currentPage = window.location.href;
-  const [vote, setVote] = useState();
+  const [uVote, setUVote] = useState(0);
+  const [dVote, setDVote] = useState(0);
   // get post
   const { data: post = {}, refetch: postRefetch } = useQuery({
     queryKey: ["post-details", id],
@@ -89,14 +90,18 @@ function PostDetails() {
     },
   });
 
+  console.log(uVote, dVote);
+
   const handleUpvote = async () => {
     await upVote();
-    setVote(1);
+    setUVote(1);
+    setDVote(0);
   };
 
   const handleDownvote = async () => {
     await downVote();
-    setVote(0);
+    setDVote(1);
+    setUVote(0);
   };
   return (
     <div className="">
@@ -155,7 +160,7 @@ function PostDetails() {
               <div className="flex ">
                 <span className="inline-flex items-center px-3 py-1.5 rounded-l-full bg-gray-50 hover:bg-gray-200 text-sm">
                   <button
-                    disabled={vote === 1}
+                    disabled={uVote === 1}
                     onClick={handleUpvote}
                     type="button"
                     className="inline-flex  disabled:cursor-not-allowed items-center space-x-2 text-gray-400 "
@@ -168,7 +173,7 @@ function PostDetails() {
                 </span>
                 <span className="inline-flex items-center px-3 py-1.5 rounded-r-full border-l border bg-gray-50 hover:bg-gray-200 text-sm">
                   <button
-                    disabled={vote === 0}
+                    disabled={dVote === 1}
                     onClick={handleDownvote}
                     type="button"
                     data-tooltip-id="my-tooltip"

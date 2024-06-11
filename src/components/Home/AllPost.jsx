@@ -16,20 +16,31 @@ function AllPost({ searchTag }) {
   const { user } = useAuth();
   const axiosCommon = useAxiosCommon();
   const [role] = useRole();
-
-  console.log(searchTag);
-
   const [allPost, setAllPost] = useState([]);
   const [tag, setTag] = useState("");
 
-  // get searc post
+  // pagination state
+  const [postPerPages, setPostPerPages] = useState(5);
+  const [totalPost, setTotalPost] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(totalPost / postPerPages);
+
+  const pages = [
+    ...Array(totalPages)
+      .keys()
+      .map((element) => element + 1),
+  ];
+
+  console.log(pages, totalPages, currentPage, totalPost);
+  // get search post
   const { data: searchPost = [] } = useQuery({
     queryKey: ["search-post", searchTag],
     queryFn: async () => {
       const { data } = await axiosCommon.get(
-        `/search-post?searchTag=${searchTag}`
+        `/search-post?searchTag=${searchTag}&pages=${currentPage}&size=${postPerPages}`
       );
       setAllPost(data);
+      setTotalPost(data.length);
       if (data.length > 0) {
         const { data } = await axiosCommon.post(
           `/store-searchTag?storeTag=${searchTag}`
@@ -44,8 +55,11 @@ function AllPost({ searchTag }) {
   const { data: alllPost = [], isLoading } = useQuery({
     queryKey: ["all-post"],
     queryFn: async () => {
-      const { data } = await axiosCommon.get("/all-post");
+      const { data } = await axiosCommon.get(
+        `/all-post?pages=${currentPage}&size=${postPerPages}`
+      );
       setAllPost(data);
+      setTotalPost(data.length);
       return data;
     },
   });
@@ -54,8 +68,11 @@ function AllPost({ searchTag }) {
     queryKey: ["tag-search", tag],
     enabled: !!tag,
     queryFn: async () => {
-      const { data } = await axiosCommon.get(`/tag-search?tag=${tag}`);
+      const { data } = await axiosCommon.get(
+        `/tag-search?tag=${tag}&pages=${currentPage}&size=${postPerPages}`
+      );
       setAllPost(data);
+      setTotalPost(data.length);
       return data;
     },
   });
@@ -68,19 +85,43 @@ function AllPost({ searchTag }) {
   // load all post
   const handleAllPost = () => {
     setAllPost(alllPost);
+    setTotalPost(allPost.length);
     setTag("");
   };
 
   const { data: popularPost = [] } = useQuery({
     queryKey: ["popular-post"],
     queryFn: async () => {
-      const { data } = await axiosCommon.get("/popular-post");
+      const { data } = await axiosCommon.get(
+        `/popular-post?pages=${currentPage}&size=${postPerPages}`
+      );
       return data;
     },
   });
 
   const handlePopular = () => {
     setAllPost(popularPost);
+    setTotalPost(popularPost.length);
+  };
+
+  // pagination related
+
+  const handleCurrentPage = (value) => {
+    setCurrentPage(value);
+  };
+
+  const handleNext = () => {
+    if (currentPage < pages.length) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  console.log(currentPage);
+
+  const handlePrev = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
@@ -277,8 +318,12 @@ function AllPost({ searchTag }) {
                 ))}
               </ul>
             </div>
+            {/* pagination button */}
             <div className="flex py-4 justify-end">
-              <button className="px-3 py-1.5 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-sm  dark:bg-gray-800 dark:text-gray-200 hover:bg-[#078669] dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200">
+              <button
+                onClick={handlePrev}
+                className="px-3 py-1.5 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-sm  dark:bg-gray-800 dark:text-gray-200 hover:bg-[#078669] dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200"
+              >
                 <div className="flex items-center -mx-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -297,11 +342,24 @@ function AllPost({ searchTag }) {
                 </div>
               </button>
 
-              <button className="hidden px-3 py-1.5 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-sm sm:inline dark:bg-gray-800 dark:text-gray-200 hover:bg-[#078669] dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200">
-                1
-              </button>
+              {pages.map((page, index) => (
+                <button
+                  onClick={() => handleCurrentPage(page)}
+                  key={index}
+                  className={`hidden ${
+                    currentPage === page
+                      ? "text-white bg-[#078669]"
+                      : "bg-white"
+                  } px-3 py-1.5 mx-1 text-gray-700 transition-colors duration-300 transform  rounded-sm sm:inline dark:bg-gray-800 dark:text-gray-200 hover:bg-[#078669] dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200`}
+                >
+                  {page}
+                </button>
+              ))}
 
-              <button className="px-3 py-1.5 mx-1 text-gray-700 transition-colors duration-300 transform rounded-sm bg-white  dark:bg-gray-800 dark:text-gray-200 hover:bg-[#078669] dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200">
+              <button
+                onClick={handleNext}
+                className="px-3 py-1.5 mx-1 text-gray-700 transition-colors duration-300 transform rounded-sm bg-white  dark:bg-gray-800 dark:text-gray-200 hover:bg-[#078669] dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200"
+              >
                 <div className="flex items-center -mx-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
