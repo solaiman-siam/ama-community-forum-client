@@ -61,14 +61,26 @@ function AllPost({ searchTag }) {
   });
 
   //   get tage search data
-
   const handleTagSearch = (value) => {
     setTag(value);
   };
+
   // load all post
   const handleAllPost = () => {
     setAllPost(alllPost);
     setTag("");
+  };
+
+  const { data: popularPost = [] } = useQuery({
+    queryKey: ["popular-post"],
+    queryFn: async () => {
+      const { data } = await axiosCommon.get("/popular-post");
+      return data;
+    },
+  });
+
+  const handlePopular = () => {
+    setAllPost(popularPost);
   };
 
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
@@ -113,7 +125,10 @@ function AllPost({ searchTag }) {
                   </button>
                 </li>
                 <li>
-                  <button className="flex border-b-2 border-white focus:border-green-400 gap-1 text-gray-600  transition-all duration-200  hover:bg-gray-100 px-4 py-1 items-center">
+                  <button
+                    onClick={handlePopular}
+                    className="flex border-b-2 border-white focus:border-green-400 gap-1 text-gray-600  transition-all duration-200  hover:bg-gray-100 px-4 py-1 items-center"
+                  >
                     <HiTrendingUp size={20} /> <span>Popular</span>
                   </button>
                 </li>
@@ -144,14 +159,16 @@ function AllPost({ searchTag }) {
                             </div>
                             <div className="min-w-0 flex-1">
                               <p className="text-sm font-medium text-gray-900">
-                                <a className="hover:underline">{post.name}</a>
+                                <span className="hover:underline">
+                                  {post.name}
+                                </span>
                               </p>
                               <p className="text-sm text-gray-500">
-                                <a className="hover:underline">
+                                <span className="hover:underline">
                                   <time dateTime="2020-12-09T11:43:00">
                                     {new Date(post.date).toLocaleString()}
                                   </time>
-                                </a>
+                                </span>
                               </p>
                             </div>
                             <div className="flex flex-shrink-0 self-center">
@@ -209,6 +226,7 @@ function AllPost({ searchTag }) {
                                 className="inline-flex items-center  text-gray-400 "
                               >
                                 <LuArrowBigDown size={22} />
+                                <p className="text-gray-500">{post.downVote}</p>
                               </button>
                               <Tooltip id="my-tooltip" />
                             </span>

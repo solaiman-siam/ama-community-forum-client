@@ -114,7 +114,7 @@ function MyPost() {
                   </td>
                   <td className="px-6 py-4">
                     <button
-                      onClick={() => handleDeletePost(post.title)}
+                      onClick={() => handleDeletePost(post._id)}
                       className="font-medium hover:bg-red-500 hover:bg-opacity-100 bg-opacity-90 transition-all duration-200 bg-red-500 rounded-md px-3 py-1.5 text-white "
                     >
                       Delete

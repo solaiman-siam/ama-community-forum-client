@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
@@ -11,14 +11,19 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
+import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 function AllComments() {
   const { title } = useParams();
-  console.log(title);
   const axiosSecure = useAxiosSecure();
   const [isOpen, setIsOpen] = useState(false);
   const [feedback, setFeedback] = useState("");
+  const [postIndex, setPostIndex] = useState();
+  const [disabled, setDisabled] = useState(false);
+  const [commentText, setCommentText] = useState("");
 
+  // get comments
   const { data: postComment = [] } = useQuery({
     queryKey: ["specificPost-comment"],
     queryFn: async () => {
@@ -27,22 +32,56 @@ function AllComments() {
     },
   });
 
-  function open() {
+  function open(comment) {
     setIsOpen(true);
+    setCommentText(comment);
   }
 
   function close() {
     setIsOpen(false);
   }
+  // added report or feedback to db
+  const { mutateAsync } = useMutation({
+    mutationFn: async (feedbackData) => {
+      const { data } = await axiosSecure.post(`/add-feedback`, feedbackData);
+      return data;
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      if (data.insertedId) {
+        console.log("data inserted");
+        setDisabled(true);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Report Added Successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    },
+  });
 
-  const handleFeedback = (value) => {
+  const handleFeedback = async (value, postIndex) => {
     setFeedback(value);
+    setPostIndex(postIndex);
+    setDisabled(false);
   };
 
-  console.log(postComment);
+  const handleReport = async (id, value) => {
+    const feedbackData = {
+      feedbackId: id,
+      feedback,
+      CommentText: value,
+    };
+    await mutateAsync(feedbackData);
+  };
 
   return (
     <div>
+      <Helmet>
+        <title>Dashboard | Post | Comment</title>
+      </Helmet>
       <div className="bg-gray-100 min-h-screen py-12  lg:py-6 px-6">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full overflow-ellipsis text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -82,7 +121,7 @@ function AllComments() {
                   <td className="pr-6 text-left pl-8 py-4">
                     {comment.message.slice(0, 20)}
                     <button
-                      onClick={open}
+                      onClick={() => open(comment.message)}
                       className="hover:text-blue-500 hover:underline"
                     >
                       ...Read more
@@ -106,11 +145,11 @@ function AllComments() {
                             >
                               <DialogPanel className="w-full max-w-md rounded-x bg-white p-6 ">
                                 <p className="mt-2 text-sm/6 text-gray-600">
-                                  {comment.message}
+                                  {commentText}
                                 </p>
                                 <div className="mt-4">
                                   <Button
-                                    className="inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white"
+                                    className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-gray-700 py-0.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white"
                                     onClick={close}
                                   >
                                     Close
@@ -126,7 +165,9 @@ function AllComments() {
                   <td className="pl-6 pr-0 py-4 ">
                     <div className="max-w-md ">
                       <Select
-                        onChange={() => handleFeedback(event.target.value)}
+                        onChange={() =>
+                          handleFeedback(event.target.value, index)
+                        }
                         id="feedback"
                         name="feedback"
                       >
@@ -143,7 +184,10 @@ function AllComments() {
                   </td>
                   <td className="px-6 py-4">
                     <button
-                      disabled={feedback === ""}
+                      onClick={() => handleReport(comment._id, comment.message)}
+                      disabled={
+                        feedback === "" || index !== postIndex || disabled
+                      }
                       className="font-medium disabled:bg-gray-400 disabled:cursor-not-allowed hover:bg-red-500 hover:bg-opacity-100 bg-opacity-90 transition-all duration-200 bg-red-500 rounded-md px-3 py-1.5 text-white "
                     >
                       Report

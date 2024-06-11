@@ -5,6 +5,8 @@ import bronze from "../../../assets/bronze-badge.png";
 import gold from "../../../assets/gold-badge.png";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { LuArrowBigDown, LuArrowBigUp } from "react-icons/lu";
+import { Tooltip } from "flowbite-react";
 
 function MyProfile() {
   const { user } = useAuth();
@@ -150,12 +152,10 @@ function MyProfile() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium text-gray-900">
-                      <a href="#" className="hover:underline">
-                        {user?.displayName}
-                      </a>
+                      <a className="hover:underline">{user?.displayName}</a>
                     </p>
                     <p className="text-sm text-gray-500">
-                      <a href="#" className="hover:underline">
+                      <a className="hover:underline">
                         <time dateTime="2020-12-09T11:43:00">
                           {new Date(recent.date).toLocaleString()}
                         </time>
@@ -197,25 +197,28 @@ function MyProfile() {
               </div>
               <div className="mt-6 flex justify-between space-x-8">
                 <div className="flex space-x-6">
-                  <span className="inline-flex items-center text-sm">
+                  <span className="inline-flex items-center px-3 py-1.5 rounded-l-full bg-gray-50 hover:bg-gray-200 text-sm">
                     <button
                       type="button"
-                      className="inline-flex space-x-2 text-gray-400 hover:text-gray-500"
+                      className="inline-flex items-center space-x-2 text-gray-400 "
                     >
-                      <svg
-                        className="h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path d="M1 8.25a1.25 1.25 0 112.5 0v7.5a1.25 1.25 0 11-2.5 0v-7.5zM11 3V1.7c0-.268.14-.526.395-.607A2 2 0 0114 3c0 .995-.182 1.948-.514 2.826-.204.54.166 1.174.744 1.174h2.52c1.243 0 2.261 1.01 2.146 2.247a23.864 23.864 0 01-1.341 5.974C17.153 16.323 16.072 17 14.9 17h-3.192a3 3 0 01-1.341-.317l-2.734-1.366A3 3 0 006.292 15H5V8h.963c.685 0 1.258-.483 1.612-1.068a4.011 4.011 0 012.166-1.73c.432-.143.853-.386 1.011-.814.16-.432.248-.9.248-1.388z"></path>
-                      </svg>
-                      <span className="font-medium text-gray-900">
-                        {recent.upVote}
+                      <LuArrowBigUp size={22} />
+                      <span className=" text-sm  text-gray-600">
+                        Upvote {recent.upVote}
                       </span>
-                      <span className="sr-only">Vote</span>
                     </button>
+                  </span>
+                  <span className="inline-flex items-center px-3 py-1.5 rounded-r-full border-l border bg-gray-50 hover:bg-gray-200 text-sm">
+                    <button
+                      type="button"
+                      data-tooltip-id="my-tooltip"
+                      data-tooltip-content="DownVote"
+                      className="inline-flex items-center  text-gray-400 "
+                    >
+                      <LuArrowBigDown size={22} />
+                      <p className="text-gray-500">{recent.downVote}</p>
+                    </button>
+                    <Tooltip id="my-tooltip" />
                   </span>
                   <span className="inline-flex items-center text-sm">
                     <button
@@ -235,33 +238,10 @@ function MyProfile() {
                           clipRule="evenodd"
                         ></path>
                       </svg>
-                      <span className="font-medium text-gray-900">11</span>
-                      <span className="sr-only">replies</span>
-                    </button>
-                  </span>
-                  <span className="inline-flex items-center text-sm">
-                    <button
-                      type="button"
-                      className="inline-flex space-x-2 text-gray-400 hover:text-gray-500"
-                    >
-                      <svg
-                        className="h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"></path>
-                        <path
-                          fillRule="evenodd"
-                          d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                          clipRule="evenodd"
-                        ></path>
-                      </svg>
                       <span className="font-medium text-gray-900">
-                        {recent.upVote * 25}
+                        {recent.comment}
                       </span>
-                      <span className="sr-only">views</span>
+                      <span className="sr-only">replies</span>
                     </button>
                   </span>
                 </div>

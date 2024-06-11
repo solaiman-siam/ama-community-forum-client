@@ -5,21 +5,25 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { LuArrowBigDown, LuArrowBigUp } from "react-icons/lu";
 import { Tooltip } from "react-tooltip";
+import { FacebookShareButton } from "react-share";
+import { useState } from "react";
 
 function PostDetails() {
   const { user } = useAuth();
   const membership = true;
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
-
-  const { data: post = {} } = useQuery({
+  const currentPage = window.location.href;
+  const [vote, setVote] = useState();
+  // get post
+  const { data: post = {}, refetch: postRefetch } = useQuery({
     queryKey: ["post-details", id],
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/post-details/${id}`);
       return data;
     },
   });
-
+  // get comments
   const { data: allComments = [], refetch } = useQuery({
     queryKey: ["all-comments", post.title],
     queryFn: async () => {
@@ -27,7 +31,7 @@ function PostDetails() {
       return data;
     },
   });
-
+  // get reply
   const { mutateAsync } = useMutation({
     mutationFn: async (commentData) => {
       const { data } = await axiosSecure.post("/add-comment", commentData);
@@ -41,7 +45,7 @@ function PostDetails() {
       }
     },
   });
-
+  // handle comment
   const handleComment = async (e) => {
     e.preventDefault();
     const message = e.target.comment.value;
@@ -59,6 +63,41 @@ function PostDetails() {
     e.target.reset();
   };
 
+  // upvote added to db
+  const { mutateAsync: upVote } = useMutation({
+    mutationFn: async () => {
+      const { data } = await axiosSecure.post(`/upVote/${id}`);
+      return data;
+    },
+    onSuccess: (data) => {
+      if (data.modifiedCount) {
+        postRefetch();
+      }
+    },
+  });
+
+  // downVote added to db
+  const { mutateAsync: downVote } = useMutation({
+    mutationFn: async () => {
+      const { data } = await axiosSecure.post(`/downVote/${id}`);
+      return data;
+    },
+    onSuccess: (data) => {
+      if (data.modifiedCount) {
+        postRefetch();
+      }
+    },
+  });
+
+  const handleUpvote = async () => {
+    await upVote();
+    setVote(1);
+  };
+
+  const handleDownvote = async () => {
+    await downVote();
+    setVote(0);
+  };
   return (
     <div className="">
       <Banner membership={membership}></Banner>
@@ -116,8 +155,10 @@ function PostDetails() {
               <div className="flex ">
                 <span className="inline-flex items-center px-3 py-1.5 rounded-l-full bg-gray-50 hover:bg-gray-200 text-sm">
                   <button
+                    disabled={vote === 1}
+                    onClick={handleUpvote}
                     type="button"
-                    className="inline-flex items-center space-x-2 text-gray-400 "
+                    className="inline-flex  disabled:cursor-not-allowed items-center space-x-2 text-gray-400 "
                   >
                     <LuArrowBigUp size={22} />
                     <span className=" text-sm  text-gray-600">
@@ -127,12 +168,15 @@ function PostDetails() {
                 </span>
                 <span className="inline-flex items-center px-3 py-1.5 rounded-r-full border-l border bg-gray-50 hover:bg-gray-200 text-sm">
                   <button
+                    disabled={vote === 0}
+                    onClick={handleDownvote}
                     type="button"
                     data-tooltip-id="my-tooltip"
                     data-tooltip-content="DownVote"
-                    className="inline-flex items-center  text-gray-400 "
+                    className="inline-flex items-center  disabled:cursor-not-allowed text-gray-400 "
                   >
                     <LuArrowBigDown size={22} />
+                    {post.downVote}
                   </button>
                   <Tooltip id="my-tooltip" />
                 </span>
@@ -163,23 +207,25 @@ function PostDetails() {
                 <span className="inline-flex items-center text-sm"></span>
               </div>
               <div className="flex text-sm">
-                <span className="inline-flex items-center text-sm">
-                  <button
-                    type="button"
-                    className="inline-flex space-x-2 text-gray-400 hover:text-gray-500"
-                  >
-                    <svg
-                      className="h-5 w-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
+                <FacebookShareButton url={currentPage}>
+                  <span className="inline-flex items-center cursor-pointer text-sm">
+                    <button
+                      type="button"
+                      className="inline-flex space-x-2 text-gray-400 hover:text-gray-500"
                     >
-                      <path d="M13 4.5a2.5 2.5 0 11.702 1.737L6.97 9.604a2.518 2.518 0 010 .792l6.733 3.367a2.5 2.5 0 11-.671 1.341l-6.733-3.367a2.5 2.5 0 110-3.475l6.733-3.366A2.52 2.52 0 0113 4.5z"></path>
-                    </svg>
-                    <span className="font-medium text-gray-900">Share</span>
-                  </button>
-                </span>
+                      <svg
+                        className="h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path d="M13 4.5a2.5 2.5 0 11.702 1.737L6.97 9.604a2.518 2.518 0 010 .792l6.733 3.367a2.5 2.5 0 11-.671 1.341l-6.733-3.367a2.5 2.5 0 110-3.475l6.733-3.366A2.52 2.52 0 0113 4.5z"></path>
+                      </svg>
+                      <span className="font-medium text-gray-900">Share</span>
+                    </button>
+                  </span>
+                </FacebookShareButton>
               </div>
             </div>
           </article>
