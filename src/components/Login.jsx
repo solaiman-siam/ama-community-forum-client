@@ -68,12 +68,12 @@ function Login() {
   const [showPass, setShowPass] = useState(false);
 
   return (
-    <div >
-       <Helmet>
+    <div>
+      <Helmet>
         <title>Ama | Login</title>
       </Helmet>
-      <div className="flex h-screen  w-full ">
-        <div className="bg-[#1EB7D8] h-full relative w-[28%] ">
+      <div className="flex items-center justify-center h-screen  w-full ">
+        <div className="bg-[#1EB7D8] lg:flex md:hidden hidden h-full relative w-[28%] ">
           <img
             className="absolute  top-0 left-0"
             src="https://i.postimg.cc/W3cg3VZ6/top-ornamate.png"

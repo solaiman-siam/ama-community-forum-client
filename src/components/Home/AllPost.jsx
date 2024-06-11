@@ -31,7 +31,6 @@ function AllPost({ searchTag }) {
       .map((element) => element + 1),
   ];
 
-  console.log(pages, totalPages, currentPage, totalPost);
   // get search post
   const { data: searchPost = [] } = useQuery({
     queryKey: ["search-post", searchTag],
@@ -45,7 +44,6 @@ function AllPost({ searchTag }) {
         const { data } = await axiosCommon.post(
           `/store-searchTag?storeTag=${searchTag}`
         );
-        console.log(data);
       }
       return data;
     },
@@ -115,8 +113,6 @@ function AllPost({ searchTag }) {
       setCurrentPage(currentPage + 1);
     }
   };
-
-  console.log(currentPage);
 
   const handlePrev = () => {
     if (currentPage > 1) {

@@ -237,7 +237,7 @@ function PostDetails() {
         </li>
       </ul>
 
-      <div className="bg-[#F3F4F6]  pb-10">
+      <div className="bg-[#F3F4F6] px-4  pb-10">
         <div className="max-w-6xl mx-auto pb-6">
           <form onSubmit={handleComment} className="flex gap-2">
             <img
@@ -260,7 +260,7 @@ function PostDetails() {
           </form>
         </div>
         {allComments.map((comments) => (
-          <div key={comments._id} className="max-w-6xl mx-auto py-2">
+          <div key={comments._id} className="max-w-6xl  mx-auto py-2">
             <div className="flex gap-4">
               <img
                 className="rounded-full w-12 h-12"
@@ -276,7 +276,7 @@ function PostDetails() {
                 </div>
               </div>
             </div>
-            <div className=" w-8/12 rounded-md pl-14 pt-2">
+            <div className=" lg:w-8/12 rounded-md lg:pl-14 pt-2">
               <p className=" text-sm  bg-[#e6e6e6] px-6 py-6 text-gray-800 rounded-md">
                 {comments.message}
               </p>

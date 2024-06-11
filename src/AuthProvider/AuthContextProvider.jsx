@@ -61,11 +61,12 @@ function AuthContextProvider({ children }) {
       const postLimit = "limited";
       const userData = { name, email, role, date, membershipStatus, postLimit };
       if (currentUser) {
+        const { data } = await axiosSecure.post("/jwt", email);
+        console.log(data);
+      }
+      if (currentUser) {
         const { data } = await axiosCommon.post("/users", userData);
         console.log(data);
-
-        const res = await axiosCommon.post("/jwt", email);
-        console.log(res.data);
       }
     });
     return () => {

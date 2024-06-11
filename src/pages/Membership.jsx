@@ -11,8 +11,8 @@ function Membership() {
         <title>Ama | Membership</title>
       </Helmet>
       <Banner membership={membership}></Banner>
-      <div className="max-w-6xl w-full gap-24 flex mx-auto">
-        <div className="flex w-[600px]   py-20">
+      <div className="max-w-6xl w-full lg:gap-24 px-4 flex lg:flex-row flex-col mx-auto">
+        <div className="lg:flex lg:w-[600px] justify-center w-full  pt-8  lg:py-20">
           <div className="bg-white rounded-lg overflow-hidden shadow-lg">
             <div className="px-6 py-8">
               <h2 className="text-3xl font-semibold text-gray-800 mb-2">
@@ -100,8 +100,8 @@ function Membership() {
             </div>
           </div>
         </div>
-        <div className="w-full py-20 flex flex-col justify-center">
-          <h3 className="text-3xl font-semibold pb-4">
+        <div className="w-full py-10 lg:py-20 flex flex-col justify-center">
+          <h3 className="lg:text-3xl text-2xl  font-semibold pb-4">
             Pay to get your Membership{" "}
           </h3>
           <p className="text-gray-700 pb-10">
