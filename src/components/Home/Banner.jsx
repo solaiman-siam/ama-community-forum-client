@@ -3,7 +3,7 @@ import cube from "../../assets/cube.svg";
 import { FaSearch } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
-
+import PropTypes from "prop-types";
 function Banner({ membership, handleSearch }) {
   const axiosCommon = useAxiosCommon();
 
@@ -78,5 +78,10 @@ function Banner({ membership, handleSearch }) {
     </div>
   );
 }
+
+Banner.propTypes = {
+  membership: PropTypes.string,
+  handleSearch: PropTypes.func,
+};
 
 export default Banner;

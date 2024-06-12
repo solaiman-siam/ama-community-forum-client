@@ -62,7 +62,6 @@ function AuthContextProvider({ children }) {
       const userData = { name, email, role, date, membershipStatus, postLimit };
       if (currentUser) {
         const { data } = await axiosSecure.post("/jwt", email);
-        console.log(data);
       }
       if (currentUser) {
         const { data } = await axiosCommon.post("/users", userData);

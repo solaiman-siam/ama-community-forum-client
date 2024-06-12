@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
 import useAuth from "../hooks/useAuth";
-
+import PropTypes from "prop-types";
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
   const location = useLocation();
@@ -21,5 +21,9 @@ function PrivateRoute({ children }) {
     ></Navigate>
   );
 }
+
+PrivateRoute.propTypes = {
+  children: PropTypes.node,
+};
 
 export default PrivateRoute;

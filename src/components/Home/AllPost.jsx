@@ -1,6 +1,5 @@
 import { HiTrendingUp } from "react-icons/hi";
 import { PiSquaresFourFill } from "react-icons/pi";
-import useAuth from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
 import LoadingSpinner from "../LoadingSpinner";
@@ -10,10 +9,10 @@ import { LuArrowBigDown, LuArrowBigUp } from "react-icons/lu";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import useRole from "../../hooks/useRole";
 function AllPost({ searchTag }) {
-  const { user } = useAuth();
   const axiosCommon = useAxiosCommon();
   const [role] = useRole();
   const [allPost, setAllPost] = useState([]);
@@ -24,8 +23,6 @@ function AllPost({ searchTag }) {
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(count / postPerPages);
-
-  console.log(totalPages);
 
   const pages = [
     ...Array(totalPages)
@@ -45,7 +42,7 @@ function AllPost({ searchTag }) {
       if (data.length > 0) {
         const { data } = await axiosCommon.post(
           `/store-searchTag?storeTag=${searchTag}`
-        );
+        )
       }
       return data;
     },
@@ -388,6 +385,10 @@ function AllPost({ searchTag }) {
       </div>
     </div>
   );
+}
+
+AllPost.propTypes = {
+  searchTag: PropTypes.string
 }
 
 export default AllPost;
