@@ -108,7 +108,7 @@ function AddPost() {
   if (posts.length >= 5 && postLimit === "limited") {
     return (
       <Link to="/membership">
-        <div className="w-full h-screen flex flex-col  justify-center items-center bg-[#F3F4F6]">
+        <div className="w-full min-h-screen flex flex-col  justify-center items-center bg-[#F3F4F6]">
           <p className="py-4 text-gray-600 font-medium w-7/12 text-center">
             You exeeds your post Limit. If your want to make unlimited post than
             become a member an enjoy

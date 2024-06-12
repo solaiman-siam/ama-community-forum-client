@@ -5,16 +5,18 @@ import useAuth from "../../hooks/useAuth";
 import { Avatar, Dropdown } from "flowbite-react";
 import useNotificationCount from "../../hooks/useNotificationCount";
 import { Tooltip } from "react-tooltip";
-import axios from "axios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 function Navbar() {
   const { user, logOut } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const [count] = useNotificationCount();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     logOut();
-    axios.post("/logout").then((res) => console.log(res.data));
+    const { data } = await axiosSecure.post("/logout", { email: user?.email });
+    console.log(data);
   };
 
   return (

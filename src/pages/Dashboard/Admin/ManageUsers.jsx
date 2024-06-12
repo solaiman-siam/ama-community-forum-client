@@ -71,39 +71,41 @@ function ManageUsers() {
       <Helmet>
         <title>Ama | Manage Users</title>
       </Helmet>
-      <div className="bg-[#F3F4F6] pt-6">
-        <form
-          onSubmit={handleUserSearch}
-          className="relative w-full max-w-xl mx-auto bg-white rounded-full"
-        >
-          <input
-            placeholder="Search Users"
-            className="rounded-full w-full h-12 bg-transparent py-2 pl-8 pr-32 border-white "
-            type="text"
-            name="userName"
-          />
-          <button
-            type="submit"
-            className="absolute inline-flex items-center h-10 px-4 py-2 text-sm text-white transition duration-150 ease-in-out rounded-full outline-none right-3 top-1 bg-[#0E9F6E] sm:px-6 sm:text-base sm:font-medium hover:bg-[#0e9f6fd9] focus:outline-none   "
+      <div className="bg-[#F3F4F6]  pt-6">
+        <div className="px-4">
+          <form
+            onSubmit={handleUserSearch}
+            className="relative w-full max-w-xl mx-auto   bg-white rounded-full"
           >
-            <svg
-              className="-ml-0.5 sm:-ml-1 mr-2 w-4 h-4 sm:h-5 sm:w-5"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+            <input
+              placeholder="Search Users"
+              className="rounded-full w-full h-12 bg-transparent py-2 pl-8 pr-32 border-white "
+              type="text"
+              name="userName"
+            />
+            <button
+              type="submit"
+              className="absolute inline-flex items-center h-10 px-4 py-2 text-sm text-white transition duration-150 ease-in-out rounded-full outline-none right-3 top-1 bg-[#0E9F6E] sm:px-6 sm:text-base sm:font-medium hover:bg-[#0e9f6fd9] focus:outline-none   "
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              ></path>
-            </svg>
-            Search
-          </button>
-        </form>
-        <div className="bg-gray-100 min-h-screen pb-12  lg:py-6 px-6">
+              <svg
+                className="-ml-0.5 sm:-ml-1 mr-2 w-4 h-4 sm:h-5 sm:w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
+              Search
+            </button>
+          </form>
+        </div>
+        <div className="bg-gray-100 min-h-screen pb-12 lg:pt-0 pt-5  lg:py-6 px-6">
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div className="pb-4 bg-white dark:bg-gray-900"></div>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

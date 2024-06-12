@@ -21,9 +21,11 @@ function AllPost({ searchTag }) {
 
   // pagination state
   const [postPerPages, setPostPerPages] = useState(5);
-  const [totalPost, setTotalPost] = useState(0);
+  const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(totalPost / postPerPages);
+  const totalPages = Math.ceil(count / postPerPages);
+
+  console.log(totalPages);
 
   const pages = [
     ...Array(totalPages)
@@ -39,7 +41,7 @@ function AllPost({ searchTag }) {
         `/search-post?searchTag=${searchTag}&pages=${currentPage}&size=${postPerPages}`
       );
       setAllPost(data);
-      setTotalPost(data.length);
+      setCount(data.length);
       if (data.length > 0) {
         const { data } = await axiosCommon.post(
           `/store-searchTag?storeTag=${searchTag}`
@@ -57,7 +59,7 @@ function AllPost({ searchTag }) {
         `/all-post?pages=${currentPage}&size=${postPerPages}`
       );
       setAllPost(data);
-      setTotalPost(data.length);
+      setCount(data.length);
       return data;
     },
   });
@@ -70,7 +72,7 @@ function AllPost({ searchTag }) {
         `/tag-search?tag=${tag}&pages=${currentPage}&size=${postPerPages}`
       );
       setAllPost(data);
-      setTotalPost(data.length);
+      setCount(data.length);
       return data;
     },
   });
@@ -83,7 +85,7 @@ function AllPost({ searchTag }) {
   // load all post
   const handleAllPost = () => {
     setAllPost(alllPost);
-    setTotalPost(allPost.length);
+    setCount(allPost.length);
     setTag("");
   };
 
@@ -99,7 +101,6 @@ function AllPost({ searchTag }) {
 
   const handlePopular = () => {
     setAllPost(popularPost);
-    setTotalPost(popularPost.length);
   };
 
   // pagination related

@@ -1,12 +1,14 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
-import { axiosCommon } from "../../hooks/useAxiosCommon";
+
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 function CheckoutForm() {
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const stripe = useStripe();
   const elements = useElements();
@@ -14,14 +16,14 @@ function CheckoutForm() {
   const [paymentError, setPaymentError] = useState("");
 
   useEffect(() => {
-    axiosCommon
+    axiosSecure
       .post("/create-payment-intent", { price: 19 })
       .then((res) => {
         setClientSecret(res.data.clientSecret);
         console.log(res.data.clientSecret);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [axiosSecure]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,7 +77,7 @@ function CheckoutForm() {
           timer: 1500,
         });
 
-        axiosCommon.post(`/upgrade/${user?.email}`).then((res) => {
+        axiosSecure.post(`/upgrade/${user?.email}`).then((res) => {
           console.log(res.data);
           navigate("/dashboard/my-profile");
         });

@@ -36,19 +36,41 @@ function Dashboard() {
       <Helmet>
         <title>Ama | Dashboard</title>
       </Helmet>
+
       <div className="w-64 bg-white z-50 fixed">
+        {/* small  navbar top */}
+        <div className="lg:hidden w-screen px-4  flex py-4 justify-between bg-gray-200  ">
+          <Link to={"/"}>
+            <img className="w-24 " src={logo} alt="" />
+          </Link>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className=" rounded-md p-0  "
+          >
+            <Hamburger
+              size={24}
+              color="black"
+              toggled={isOpenMenu}
+              toggle={setOpenMenu}
+            />
+          </button>
+        </div>
         <aside
           className={
             isOpen
-              ? "flex transition-all  lg:static z-50 absolute duration-300 flex-col w-[275px] h-screen px-4 py-8  bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700"
-              : "transtion-all duration-300 lg:static absolute z-50 -translate-x-[400px] w-[275px] h-screen   bg-white  "
+              ? "flex transition-all  lg:static z-50 absolute duration-300 flex-col w-[275px] h-screen px-4 lg:py-8 py-2 md:py-4 bg-gray-200 lg:bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700"
+              : "transtion-all duration-300 lg:static absolute z-50 -translate-x-[400px] w-[275px] h-screen   bg-gray-200 lg:bg-white  "
           }
         >
           <Link to={"/"}>
-            <img className="  pl-9 w-[120px] pb-1 " src={logo} alt="" />
+            <img
+              className="  pl-9 w-[120px] pb-1 lg:flex hidden md:hidden "
+              src={logo}
+              alt=""
+            />
           </Link>
 
-          <hr className="mt-4 border-gray-200 dark:border-gray-600" />
+          <hr className="mt-4 lg:flex md:hidden hidden border-gray-200 dark:border-gray-600" />
 
           <div className="flex flex-col justify-between flex-1 ">
             <nav>
@@ -176,21 +198,9 @@ function Dashboard() {
           </div>
         </aside>
       </div>
-      <div className=" bg-gray-400 w-full lg:pl-[21.5vw] lg:w-[100vw] h-full">
+
+      <div className=" bg-gray-400 lg:pt-0 pt-20 md:pt-10 w-full lg:pl-[21.5vw] lg:w-[100vw] h-full">
         <Outlet></Outlet>
-      </div>
-      <div className="absolute lg:hidden flex right-0 z-50 top-0 ">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className=" rounded-md p-0  bg-gray-200  absolute top-0 right-0  "
-        >
-          <Hamburger
-            size={24}
-            color="black"
-            toggled={isOpenMenu}
-            toggle={setOpenMenu}
-          />
-        </button>
       </div>
     </div>
   );

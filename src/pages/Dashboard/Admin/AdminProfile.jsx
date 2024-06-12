@@ -4,14 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { BsPeople, BsPostcard } from "react-icons/bs";
 import { MdComment } from "react-icons/md";
-import {
-  PieChart,
-  Pie,
-  Sector,
-  Cell,
-  ResponsiveContainer,
-  Legend,
-} from "recharts";
+import { PieChart, Pie, Cell, Legend } from "recharts";
 function AdminProfile() {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -116,9 +109,9 @@ function AdminProfile() {
           </div>
         </div>
 
-        <div className="  grid grid-cols-3 gap-8  ">
+        <div className="  grid lg:grid-cols-3 md:grid-cols-1 grid-cols-1 gap-8  ">
           <div className="w-full   ">
-            <div className="flex items-center px-5 py-6 shadow-sm rounded-md bg-slate-200">
+            <div className="flex justify-center lg:justify-start items-center px-5 py-6 shadow-sm rounded-md bg-slate-200">
               <div className="p-3 rounded-full bg-[#07886A] bg-opacity-75">
                 <BsPeople size={26} color="white"></BsPeople>
               </div>
@@ -132,7 +125,7 @@ function AdminProfile() {
             </div>
           </div>
           <div className=" w-full  ">
-            <div className="flex items-center px-5 py-6 shadow-sm rounded-md bg-slate-200">
+            <div className="flex justify-center lg:justify-start items-center px-5 py-6 shadow-sm rounded-md bg-slate-200">
               <div className="p-3 rounded-full bg-[#07886A] bg-opacity-75">
                 <BsPostcard size={26} color="white" />
               </div>
@@ -146,7 +139,7 @@ function AdminProfile() {
             </div>
           </div>
           <div className=" w-full  ">
-            <div className="flex items-center px-5 py-6 shadow-sm rounded-md bg-slate-200">
+            <div className="flex justify-center lg:justify-start items-center px-5 py-6 shadow-sm rounded-md bg-slate-200">
               <div className="p-3 rounded-full bg-[#07886A] bg-opacity-75">
                 <MdComment size={26} color="white" />
               </div>
@@ -183,9 +176,9 @@ function AdminProfile() {
           </PieChart>
         </div>
       </div>
-      <div className="bg-[#F5F5FE] px-6  pb-24">
+      <div className="bg-[#F5F5FE] px-6 lg:pt-0 md:pt-8 pt-10 md:pb-16 pb-10  lg:pb-24">
         <form onSubmit={handleAddTags}>
-          <h3 className="text-3xl pb-4 text-gray-700 font-semibold pb-2 ">
+          <h3 className="text-3xl pb-4 text-gray-700 font-semibold ">
             Add Popular Tags
           </h3>
           <div className="flex gap-2">
@@ -203,7 +196,7 @@ function AdminProfile() {
             </button>
           </div>
         </form>
-        <div className="px-24   py-4">
+        <div className="lg:px-24 md:px-8 px-4  py-4">
           {storedTags.map((element) => (
             <p
               className="bg-gray-200 inline-flex m-1  rounded-md px-2 py-1"
