@@ -4,6 +4,9 @@ Live site:
 
 - <a href="https://ama-forum.web.app">Ama</a>
 
+<h4>Admin UserName : admin@gmail.com</h4>
+<h4>Admin Password : admin1A*</h4>
+
 # Ama Forum
 
 # Key Feature

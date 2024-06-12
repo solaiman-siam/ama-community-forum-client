@@ -30,19 +30,27 @@ function AllPost({ searchTag }) {
       .map((element) => element + 1),
   ];
 
+  const { data: countsData = {} } = useQuery({
+    queryKey: ["counts-post"],
+    queryFn: async () => {
+      const { data } = await axiosCommon.get("/counts");
+      setCount(data.count);
+      return data.count;
+    },
+  });
+
   // get search post
   const { data: searchPost = [] } = useQuery({
-    queryKey: ["search-post", searchTag],
+    queryKey: ["search-post", searchTag, currentPage, postPerPages],
     queryFn: async () => {
       const { data } = await axiosCommon.get(
         `/search-post?searchTag=${searchTag}&pages=${currentPage}&size=${postPerPages}`
       );
       setAllPost(data);
-      setCount(data.length);
       if (data.length > 0) {
         const { data } = await axiosCommon.post(
           `/store-searchTag?storeTag=${searchTag}`
-        )
+        );
       }
       return data;
     },
@@ -50,26 +58,24 @@ function AllPost({ searchTag }) {
 
   //   get all post
   const { data: alllPost = [], isLoading } = useQuery({
-    queryKey: ["all-post"],
+    queryKey: ["all-post", currentPage, postPerPages],
     queryFn: async () => {
       const { data } = await axiosCommon.get(
         `/all-post?pages=${currentPage}&size=${postPerPages}`
       );
       setAllPost(data);
-      setCount(data.length);
       return data;
     },
   });
   // get tag search
   const { data: data2 = [], isLoading: isLoading2 } = useQuery({
-    queryKey: ["tag-search", tag],
+    queryKey: ["tag-search", tag, currentPage, postPerPages],
     enabled: !!tag,
     queryFn: async () => {
       const { data } = await axiosCommon.get(
         `/tag-search?tag=${tag}&pages=${currentPage}&size=${postPerPages}`
       );
       setAllPost(data);
-      setCount(data.length);
       return data;
     },
   });
@@ -82,12 +88,11 @@ function AllPost({ searchTag }) {
   // load all post
   const handleAllPost = () => {
     setAllPost(alllPost);
-    setCount(allPost.length);
     setTag("");
   };
 
   const { data: popularPost = [] } = useQuery({
-    queryKey: ["popular-post"],
+    queryKey: ["popular-post", currentPage, postPerPages],
     queryFn: async () => {
       const { data } = await axiosCommon.get(
         `/popular-post?pages=${currentPage}&size=${postPerPages}`
@@ -388,7 +393,7 @@ function AllPost({ searchTag }) {
 }
 
 AllPost.propTypes = {
-  searchTag: PropTypes.string
-}
+  searchTag: PropTypes.string,
+};
 
 export default AllPost;
